@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+  <metadata>
+    <id>fluorinefx</id>
+    <version>1.2.4</version>
+    <title>FluorineFX</title>
+    <authors>Zoltan Csibi, zoltan@TheSilentGroup.com, FluorineFx.com</authors>
+    <owners>Zoltan Csibi, zoltan@TheSilentGroup.com, FluorineFx.com</owners>
+    <licenseUrl>http://www.fluorinefx.com/license.html</licenseUrl>
+    <projectUrl>http://www.fluorinefx.com/</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Nuno Costa</description>
+    <releaseNotes />
+    <copyright />
+    <language />
+    <tags>fluorinefx .net20 .net35 .net40 mono1.2.4</tags>
+    <dependencies>
+      <dependency id="log4net" version="[1.2.10]" />
+    </dependencies>
+  </metadata>
+</package>
