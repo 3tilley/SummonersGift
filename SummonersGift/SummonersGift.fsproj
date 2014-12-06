@@ -42,8 +42,9 @@
     <Reference Include="System.Numerics" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApiKeys.fs" />
     <Compile Include="Library1.fs" />
-    <None Include="Script.fsx" />
+    <None Include="DataDownloader.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
