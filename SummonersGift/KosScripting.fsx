@@ -1,9 +1,12 @@
-﻿
-#r @"C:\Users\Andrew\Documents\GitHub\SummonersGift\packages\FSharp.Data.2.1.0\lib\net40\FSharp.Data.dll"
-open FSharp.Data 
+﻿#r @"..\packages\FSharp.Data.2.1.0\lib\net40\FSharp.Data.dll"
+#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.dll"
+#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Core.dll"
+#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Numerics.dll"
+#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.dll"
+#r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll"
 
-type SomeProvider = JsonProvider<"..\ExampleJSON\game-v1.3.JSON">
+#load "ApiKeys.fs"
+#load "FetchFunctions.fs"
 
-let game = SomeProvider.Load(@"C:\Users\Andrew\Documents\GitHub\SummonersGift\ExampleJSON\game-v1.3.json")
-
-game.Games.[0].ChampionId
+let kf = SummonersGift.FetchFunctions.getSummoner "euw" "Proheme"
+kf.JsonValue

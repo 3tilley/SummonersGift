@@ -3,10 +3,6 @@
 open FSharp.Data 
 open SummonersGift.Keys
 
-module Constants = 
-
-    
-
 module FetchFunctions =
 
     type Game1_3 = JsonProvider<"..\ExampleJSON\game-v1.3.JSON">
@@ -18,7 +14,7 @@ module FetchFunctions =
     type Summoner1_4 = JsonProvider<"..\ExampleJSON\summoner-v1.4.JSON">
 
 
-    let getSummoner(region:string)(summonerName:string)=
+    let getSummoner (region:string) (summonerName:string) =
 
         "https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summonerName.Replace(" ","%20") + "?api_key=" + lolApiKey
             |> Summoner1_4.Load
