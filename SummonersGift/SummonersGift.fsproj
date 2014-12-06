@@ -45,6 +45,7 @@
     <Compile Include="ApiKeys.fs" />
     <Compile Include="Library1.fs" />
     <None Include="DataDownloader.fsx" />
+    <None Include="KosScripting.fsx" />
   </ItemGroup>
   <PropertyGroup>
     <MinimumVisualStudioVersion Condition="'$(MinimumVisualStudioVersion)' == ''">11</MinimumVisualStudioVersion>
