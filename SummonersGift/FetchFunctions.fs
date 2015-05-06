@@ -27,7 +27,8 @@ module FetchFunctions =
 //        "https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summonerName.Replace(" ","%20") + "?api_key=" + lolApiKey
 //            |> Summoner1_4.Load
 
-    let getSummoner (region:string) (summonerNames:string[]) = 
+
+    let getSummoner (region:string) (summonerNames:string[]) lolApiKey = 
 
         let summoners = (String.concat "," summonerNames).Replace(" ","%20") 
         let query = "https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summoners + "?api_key=" + lolApiKey
