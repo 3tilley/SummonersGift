@@ -1,1 +1,0 @@
-<%@ Application Inherits="SummonersGiftWebSite.Global" %>
