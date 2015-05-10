@@ -5,9 +5,9 @@ namespace SummonersGiftWeb
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class sgdb : DbContext
+    public partial class SgdbContext : DbContext
     {
-        public sgdb()
+        public SgdbContext()
             : base("name=sgdb")
         {
         }

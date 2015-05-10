@@ -20,7 +20,7 @@ namespace SummonersGiftWeb
             );
 
             //routes.MapRoute(
-            //    name: "Hello",
+            //    name: "Champion",
             //    url: "{controller}/{action}/{id}"
             //);
 
