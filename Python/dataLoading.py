@@ -32,19 +32,42 @@ def sumCats(df, cats=summonerColumnsToMakeCategories):
         df[c] = df[c].astype("category", categories=o, ordered=True)
 
 ### Need to optimise this, close files and delete json?
-def loadMatches(matchIds, matchFolder, columnsToMakeCategories=cats, fileExtension="", dropTimeline=True, lightMatches=False):
+def loadMatches(matchIds, matchFolder, columnsToMakeCategories=cats, fileExtension="",
+                    dropTimeline=True, lightMatches=False, popCats=None, showProgress=True):
+    counter = False
+    idsLen = len(matchIds)
+    counts = None
+    if (idsLen >= 1000) and showProgress:
+        counter = True
+        counts = [matchIds.iloc[int((i / 10.0) * idsLen)] for i in range(1,10) ]
+    
+    assert (not ((not lightMatches) and (popCats is not None))), "If popCats is specified, lightMatches must be True"
+    if popCats is None and lightMatches:
+        popCats = toPop
     dataDict = []
+    
+    nextId = None
+    percentage = None
+    if counter:
+        nextId = counts[0]
+        progress = 1
     for f in matchIds:
         with open(matchFolder + "\\" + str(f) + fileExtension) as fp:
             jsonObj = json.load(fp)
             if dropTimeline and not lightMatches:
                 jsonObj.pop("timeline")
             if lightMatches:
-                for j in toPop: jsonObj.pop(j)
+                for j in popCats: jsonObj.pop(j)
             dataDict.append(jsonObj)
+        if counter:
+            if f == nextId:
+                print("{0}% complete".format(progress * 10.0))
+                if progress != 9:
+                    nextId = counts[progress]
+                progress += 1
     df = pd.DataFrame(dataDict)
     if lightMatches:
-        lightCats = set(columnsToMakeCategories).difference(set(toPop))
+        lightCats = set(columnsToMakeCategories).difference(set(popCats))
         columnsToMakeCategories = lightCats
     for c in columnsToMakeCategories:
         df[c] = df[c].astype("category")
