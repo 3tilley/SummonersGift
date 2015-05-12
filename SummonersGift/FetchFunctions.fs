@@ -1,39 +1,30 @@
-﻿namespace SummonersGift
+﻿namespace SummonersGift.Data
 
 open FSharp.Data 
-open SummonersGift.Keys
 
-module DataSource =
+module JsonProviders =
 
-    let wc = new System.Net.WebClient()
+    type Game_1_3 = JsonProvider<"..\ExampleJSON\game-v1.3.JSON">
+    type League_2_5 = JsonProvider<"..\ExampleJSON\league-v2.5.JSON">
+    type MatchHistory_2_2 = JsonProvider<"..\ExampleJSON\matchhistory-v2.2.JSON">
+    type Matc_h2_2 = JsonProvider<"..\ExampleJSON\match-v2.2.JSON">
+    type Stats_1_3_Ranked = JsonProvider<"..\ExampleJSON\stats-v1.3_ranked.JSON">
+    type Stats_1_3_Summary = JsonProvider<"..\ExampleJSON\stats-v1.3_summary.JSON">
+    type Summoner_1_4 = JsonProvider<"..\ExampleJSON\summoner-v1.4.JSON">
+    type League_Entry_2_5 = JsonProvider<"..\ExampleJSON\league-entry-v2.5.json">
 
-module FetchFunctions =
+module Endpoints =
 
-    open DataSource
+    let baseUrl = @"https://euw.api.pvp.net"
 
-    type Game1_3 = JsonProvider<"..\ExampleJSON\game-v1.3.JSON">
-    type League2_5 = JsonProvider<"..\ExampleJSON\league-v2.5.JSON">
-    type MatchHistory2_2 = JsonProvider<"..\ExampleJSON\matchhistory-v2.2.JSON">
-    type Match2_2 = JsonProvider<"..\ExampleJSON\match-v2.2.JSON">
-    type Stats1_3_Ranked = JsonProvider<"..\ExampleJSON\stats-v1.3_ranked.JSON">
-    type Stats1_3_Summary = JsonProvider<"..\ExampleJSON\stats-v1.3_summary.JSON">
-    type Summoner1_4 = JsonProvider<"..\ExampleJSON\summoner-v1.4.JSON">
+    let matchHistory = 
+        """/api/lol/{region}/v2.2/matchhistory?{summonerId}/rankedQueues="RANKED_SOLO_5x5"%beginIndex={begin}&endIndex={end}"""
 
-    type Summoner = {id:int;name:string;profileIconId:int;summonerLevel:int;revisionDate:int64}
+    let summonerNames =
+        @"/api/lol/{region}/v1.4/summoner/by-name/{summonerNames}"
 
-//    This function isn't great.
-//    let getSummoner (region:string) (summonerName:string) =
-//
-//        "https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summonerName.Replace(" ","%20") + "?api_key=" + lolApiKey
-//            |> Summoner1_4.Load
+    let summonerLeagues =
+        @"/api/lol/{region}/v2.5/league/by-summoner/{summonerIds}/entry"
 
 
-    let getSummoner (region:string) (summonerNames:string[]) lolApiKey = 
-
-        let summoners = (String.concat "," summonerNames).Replace(" ","%20") 
-        let query = "https://" + region + ".api.pvp.net/api/lol/" + region + "/v1.4/summoner/by-name/" + summoners + "?api_key=" + lolApiKey
-        let result = wc.DownloadString query
-        let dictType = System.Collections.Generic.Dictionary<string,Summoner>().GetType()
-        let deserialised = Newtonsoft.Json.JsonConvert.DeserializeObject(result,dictType)
-        deserialised :?> System.Collections.Generic.Dictionary<string,Summoner>
         

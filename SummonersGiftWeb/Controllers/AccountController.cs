@@ -8,9 +8,9 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using SummonersGiftWeb.Models;
+using SummonersGift.Web.Models;
 
-namespace SummonersGiftWeb.Controllers
+namespace SummonersGift.Web.Controllers
 {
     [Authorize]
     public class AccountController : Controller

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 
-namespace SummonersGiftWeb
+namespace SummonersGift.Web
 {
     public class RouteConfig
     {
@@ -13,16 +13,18 @@ namespace SummonersGiftWeb
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+            routes.MapRoute(
+                name: "Champion",
+                url: "Champion/{id}/",
+                defaults: new { Controller = "Champion", action = "Index", id = UrlParameter.Optional }
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            //routes.MapRoute(
-            //    name: "Champion",
-            //    url: "{controller}/{action}/{id}"
-            //);
 
         }
     }

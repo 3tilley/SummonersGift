@@ -5,8 +5,9 @@ using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Microsoft.FSharp.Collections;
 
-namespace SummonersGiftWeb
+namespace SummonersGift.Web
 {
     public class MvcApplication : System.Web.HttpApplication
     {

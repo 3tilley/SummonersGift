@@ -1,4 +1,4 @@
-﻿namespace SummonersGift
+﻿namespace SummonersGift.Data
 
 module Utils =
     
@@ -8,6 +8,3 @@ module Utils =
             ReqsPerSecond : double
             SummonerName : string
         }
-
-
-

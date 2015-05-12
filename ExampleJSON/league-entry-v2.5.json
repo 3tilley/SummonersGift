@@ -1,0 +1,55 @@
+{
+   "43518871": [{
+      "queue": "RANKED_TEAM_5x5",
+      "name": "Miss Fortune's Brood",
+      "entries": [{
+         "leaguePoints": 0,
+         "isFreshBlood": false,
+         "isHotStreak": false,
+         "division": "V",
+         "isInactive": false,
+         "isVeteran": false,
+         "losses": 10,
+         "playerOrTeamName": "Ladies of League",
+         "playerOrTeamId": "TEAM-c6b2dd50-c9b2-11e4-b7cb-c81f66db8bc5",
+         "wins": 0
+      }],
+      "tier": "BRONZE"
+   }],
+   "23029876": [
+      {
+         "queue": "RANKED_SOLO_5x5",
+         "name": "Singed's Commanders",
+         "entries": [{
+            "leaguePoints": 56,
+            "isFreshBlood": false,
+            "isHotStreak": false,
+            "division": "II",
+            "isInactive": false,
+            "isVeteran": false,
+            "losses": 39,
+            "playerOrTeamName": "Sambucatus",
+            "playerOrTeamId": "23029876",
+            "wins": 30
+         }],
+         "tier": "SILVER"
+      },
+      {
+         "queue": "RANKED_TEAM_5x5",
+         "name": "Miss Fortune's Brood",
+         "entries": [{
+            "leaguePoints": 0,
+            "isFreshBlood": false,
+            "isHotStreak": false,
+            "division": "V",
+            "isInactive": false,
+            "isVeteran": false,
+            "losses": 10,
+            "playerOrTeamName": "Ladies of League",
+            "playerOrTeamId": "TEAM-c6b2dd50-c9b2-11e4-b7cb-c81f66db8bc5",
+            "wins": 0
+         }],
+         "tier": "BRONZE"
+      }
+   ]
+}

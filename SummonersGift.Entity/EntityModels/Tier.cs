@@ -1,4 +1,4 @@
-namespace SummonersGiftWeb
+namespace SummonersGift.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,24 +6,24 @@ namespace SummonersGiftWeb
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Division")]
-    public partial class Division
+    [Table("Tier")]
+    public partial class Tier
     {
-        public Division()
+        public Tier()
         {
             AggStats = new HashSet<AggStat>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public byte DivisionId { get; set; }
+        public byte TierId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string DivisionName { get; set; }
+        public string TierName { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string DivisionJson { get; set; }
+        public string TierJson { get; set; }
 
         public virtual ICollection<AggStat> AggStats { get; set; }
     }

@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using SummonersGift.Entity;
 
-namespace SummonersGiftWeb.Controllers
+namespace SummonersGift.Web.Controllers
 {
     public class ChampionController : Controller
     {
@@ -12,12 +13,8 @@ namespace SummonersGiftWeb.Controllers
         // GET: Champion
         public ActionResult Index(int id)
         {
-            var champEntry = db.Champions.Find(id);
-            var name = "None";
-            if (!(champEntry==null))
-            {
-                name = champEntry.Name;
-            }
+            var name = Data.Champions.ChampNameOrDefault(id, "None");
+
             ViewBag.ChampName = name;
             return View();
         }

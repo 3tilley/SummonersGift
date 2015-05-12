@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace SummonersGiftWeb
+namespace SummonersGift.Web
 {
     public class BundleConfig
     {

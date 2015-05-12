@@ -1,4 +1,4 @@
-namespace SummonersGiftWeb
+namespace SummonersGift.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,28 +6,35 @@ namespace SummonersGiftWeb
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Champion")]
-    public partial class Champion
+    [Table("Stat")]
+    public partial class Stat
     {
-        public Champion()
+        public Stat()
         {
             AggStats = new HashSet<AggStat>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short ChampionId { get; set; }
+        public short StatId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Version { get; set; }
+        public string StatName { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string Name { get; set; }
+        public string StatCode { get; set; }
 
         [Required]
+        [StringLength(500)]
+        public string Description { get; set; }
+
         [StringLength(100)]
-        public string Title { get; set; }
+        public string JsonEndPoint { get; set; }
+
+        [StringLength(100)]
+        public string JsonPath { get; set; }
+
+        public bool IsStraightFromJson { get; set; }
 
         public virtual ICollection<AggStat> AggStats { get; set; }
     }

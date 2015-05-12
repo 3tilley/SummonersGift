@@ -10,9 +10,9 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using SummonersGiftWeb.Models;
+using SummonersGift.Web.Models;
 
-namespace SummonersGiftWeb
+namespace SummonersGift.Web
 {
     public class EmailService : IIdentityMessageService
     {

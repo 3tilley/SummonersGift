@@ -1,8 +1,8 @@
 ﻿using Microsoft.Owin;
 using Owin;
 
-[assembly: OwinStartupAttribute(typeof(SummonersGiftWeb.Startup))]
-namespace SummonersGiftWeb
+[assembly: OwinStartupAttribute(typeof(SummonersGift.Web.Startup))]
+namespace SummonersGift.Web
 {
     public partial class Startup
     {

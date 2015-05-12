@@ -5,9 +5,9 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using SummonersGiftWeb.Models;
+using SummonersGift.Web.Models;
 
-namespace SummonersGiftWeb
+namespace SummonersGift.Web
 {
     public partial class Startup
     {
