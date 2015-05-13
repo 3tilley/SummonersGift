@@ -13,7 +13,7 @@ namespace SummonersGift.Web.Controllers
         // GET: Champion
         public ActionResult Index(int id)
         {
-            var name = Data.Champions.ChampNameOrDefault(id, "None");
+            var name = "hello"; // Data.Champions.ChampNameOrDefault(id, "None");
 
             ViewBag.ChampName = name;
             return View();

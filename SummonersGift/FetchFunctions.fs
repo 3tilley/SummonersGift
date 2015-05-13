@@ -17,14 +17,38 @@ module Endpoints =
 
     let baseUrl = @"https://euw.api.pvp.net"
 
-    let matchHistory = 
-        """/api/lol/{region}/v2.2/matchhistory?{summonerId}/rankedQueues="RANKED_SOLO_5x5"%beginIndex={begin}&endIndex={end}"""
+    let matchHistoryEndpoint = 
+        """/api/lol/{region}/v2.2/matchhistory/{summonerId}/rankedQueues="RANKED_SOLO_5x5"?beginIndex={begin}&endIndex={end}"""
 
-    let summonerNames =
+    let summonerNamesEndpoint =
         @"/api/lol/{region}/v1.4/summoner/by-name/{summonerNames}"
 
-    let summonerLeagues =
+    let summonerLeaguesEndpoint =
         @"/api/lol/{region}/v2.5/league/by-summoner/{summonerIds}/entry"
 
+    let addApiKey key (request : string) =
+        if request.Contains("?") then
+            request + "&api_key=" + key
+        else
+            request + "?api_key=" + key
 
-        
+    let buildMatchHistoryUrl region summonerId index key =
+        matchHistoryEndpoint.Replace("{summonerId}",summonerId).Replace("{region}", region)
+            .Replace("{begin}",string(index)).Replace("{end}",string(index + 15))
+        |> addApiKey key
+        |> (+) baseUrl
+
+    let buildSummonerNamesUrl region (summonerNames : string seq) key =
+        let escapedNames =
+            summonerNames
+            |> Seq.map System.Web.HttpUtility.HtmlEncode
+            |> String.concat ","
+        summonerNamesEndpoint.Replace("{summonerNames}", escapedNames).Replace("{region}", region)
+        |> addApiKey key
+        |> (+) baseUrl
+
+    let buildSummonerLeagues region summonerIds key =
+        summonerLeaguesEndpoint.Replace("{region}", region)
+            .Replace("{summonerIds}", summonerIds |> String.concat ",")
+        |> addApiKey key
+        |> (+) baseUrl

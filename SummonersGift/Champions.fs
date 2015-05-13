@@ -1,10 +1,9 @@
 ﻿namespace SummonersGift.Data
 
-module Champions =
 
-
-    let internal buildChampionMap version =
-        let db = new SummonersGift.Entity.SgdbContext()
+type Champions(version) =
+    let buildChampionMap version =
+        use db = new SummonersGift.Entity.SgdbContext()
 
         let query = query { for champ in db.Champions do
                             where (champ.Version = version)
@@ -13,9 +12,21 @@ module Champions =
         |> Seq.map (fun c -> (int c.ChampionId, c.Name))
         |> Map.ofSeq
 
-    let internal champMap = buildChampionMap "5.8.1"
+    let champMap = buildChampionMap version
     
-    let ChampNameOrDefault id valueIfDefault =
+    member x.ChampNameOrDefault(id, valueIfDefault) =
             match champMap.TryFind id with
             | Some x -> x
             | None -> valueIfDefault
+
+type Stat() =
+    let buildStatMap version =
+        use db = new SummonersGift.Entity.SgdbContext()
+
+        let query =
+            query { for stat in db.Stats do
+                    select stat}
+
+        query
+        |> Seq.map (fun s -> s.StatId, s.StatName)
+        |> Map.ofSeq

@@ -21,7 +21,7 @@ namespace SummonersGift.Web.Controllers
         public ActionResult Welcome(string name, int numTimes = 1)
         {
 
-            ViewBag.Name = name;
+            ViewBag.Name = SummonersGift.Web.MvcApplication.DataFetcher.GetSummonerId("EUW", name);
             ViewBag.NumTimes = numTimes;
             return View();
         }
