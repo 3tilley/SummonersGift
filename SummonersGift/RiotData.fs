@@ -37,7 +37,7 @@ type DataFetcher(keys : ApiKey seq) =
         match keys |> Seq.length with
             | 0 -> failwith "Need at least one key"
             | 1 -> keys |> Seq.head
-            | x when x > 2 -> failwith "Multiple keys not supported"
+            | x when x >= 2 -> failwith "Multiple keys not supported"
 
     member public x.GetSummonerId(region, escapedName) =
         let url = buildSummonerNamesUrl region [escapedName] key.Key
