@@ -4,10 +4,12 @@
 #r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Numerics.dll"
 #r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Web.dll"
 #r @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5\System.Xml.Linq.dll"
-#r @"C:\Users\Andrew\Documents\GitHub\SummonersGift\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll"
+#r @"..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll"
 
+#load "Utils.fs"
 #load "ApiKeys.fs"
 #load "FetchFunctions.fs"
+#load "RiotData.fs"
 
 let kf = SummonersGift.FetchFunctions.getSummoner "euw" [|"Proheme";"Khaos Force"|]
 kf.["proheme"]

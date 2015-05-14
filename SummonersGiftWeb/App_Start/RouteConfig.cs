@@ -13,6 +13,10 @@ namespace SummonersGift.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            routes.MapRoute(
+                name: "HelloWorld",
+                url: "HelloWorld/Welcome/{id}",
+                defaults: new { Controller = "HelloWorld", action = "Welcome" });
 
             routes.MapRoute(
                 name: "Champion",

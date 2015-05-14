@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Threading.Tasks;
 
 namespace SummonersGift.Web.Controllers
 {
@@ -18,12 +19,9 @@ namespace SummonersGift.Web.Controllers
         //
         // GET: /HelloWorld/Welcome/
 
-        public ActionResult Welcome(string name, int numTimes = 1)
+        public async Task<ActionResult> Welcome(string id)
         {
-
-            ViewBag.Name = SummonersGift.Web.MvcApplication.DataFetcher.GetSummonerId("EUW", name);
-            ViewBag.NumTimes = numTimes;
-            return View();
+            return View((await SummonersGift.Web.MvcApplication.DataFetcher.GetSummonerId("EUW", id)).Result);
         }
     }
 }

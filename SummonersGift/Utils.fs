@@ -1,4 +1,5 @@
-﻿namespace SummonersGift.Data
+﻿
+namespace SummonersGift.Data
 
 module Utils =
     

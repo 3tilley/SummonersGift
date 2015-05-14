@@ -1,4 +1,6 @@
-﻿@{
+﻿@model SummonersGift.Data.RiotTypes.Summoner
+
+@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -6,14 +8,10 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>SummonerInformation</h2>
 
-<p>Hello from our View Template!</p>
+<p>Welcome: @Model.Name</p>
 
-@{
-    for (int i = 0; i < ViewBag.NumTimes; i++)
-    {
-        <li>@ViewBag.Name</li>
-    }
+<p>You are level: @Model.SummonerLevel</p>
 
-}
+<p>And were last active on: @Model.RevisionDate</p>
