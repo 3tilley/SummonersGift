@@ -39,8 +39,8 @@ let main argv =
         with
         | e -> printfn "%A" e
 
-    let key1 = Keys.keys.[0].Key
-    let key2 = Keys.keys.[1].Key
+    let key1 = ApiKeys.keys.[0].Key
+    let key2 = ApiKeys.keys.[1].Key
 
     // get summoners
     let summoners =

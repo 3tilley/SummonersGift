@@ -2,8 +2,6 @@
 
 open FSharp.Data 
 
-module RiotTypes =
-
 //    type Game_1_3 = JsonProvider<"..\ExampleJSON\game-v1.3.JSON">
 //    type League_2_5 = JsonProvider<"..\ExampleJSON\league-v2.5.JSON">
 //    type MatchHistory_2_2 = JsonProvider<"..\ExampleJSON\matchhistory-v2.2.JSON">
@@ -13,16 +11,6 @@ module RiotTypes =
 //    type Summoner_1_4 = JsonProvider<"..\ExampleJSON\summoner-v1.4.JSON", SampleIsList=true>
 //    type League_Entry_2_5 = JsonProvider<"..\ExampleJSON\league-entry-v2.5.json">
 
-    type Summoner =
-        {
-            Id : int;
-            Name : string
-            ProfileIconId : int
-            SummonerLevel : int
-            RevisionDate : int64
-        }
-
-    type SummonersJson_1_4 = Map<string, Summoner>
 
 
 module Endpoints =
@@ -46,7 +34,7 @@ module Endpoints =
 
     let buildMatchHistoryUrl region summonerId index key =
         matchHistoryEndpoint.Replace("{summonerId}",summonerId).Replace("{region}", region)
-            .Replace("{begin}",string(index)).Replace("{end}",string(index + 15))
+            .Replace("{begin}",string(index)).Replace("{end}",string(index + 1))
         |> addApiKey key
         |> (+) baseUrl
 

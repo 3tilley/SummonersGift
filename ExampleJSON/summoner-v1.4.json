@@ -1,7 +1,16 @@
-﻿{"khaosforce": {
-   "id": 35511005,
-   "name": "Khaos Force",
-   "profileIconId": 582,
-   "revisionDate": 1417798356000,
-   "summonerLevel": 30
-}}
+﻿{
+"sambucatus": {
+"id": 23029876,
+"name": "Sambucatus",
+"profileIconId": 7,
+"summonerLevel": 30,
+"revisionDate": 1431650981000
+},
+"proheme": {
+"id": 43518871,
+"name": "Proheme",
+"profileIconId": 7,
+"summonerLevel": 30,
+"revisionDate": 1430169805000
+}
+}

@@ -1,0 +1,36 @@
+﻿@*@model SummonersGift.Data.DataFetchResult<SummonersGift.Models.View.SummonerBasicViewModel>*@
+@model List<SummonersGift.Models.Riot.Match>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Summoner Information</h2>
+
+@*@{ if (@Model.Success)
+ {
+    <p>Welcome: @Model.GetResult.Name</p>
+
+    <p>You are level: @Model.GetResult.SummonerLevel</p>
+
+    <p>And were last active on: @Model.GetResult.RevisionDate</p>
+ }
+ else
+ {
+    <p>No summoner information found...</p>
+    <p>@Model.ErrorMessage</p>
+ }
+
+
+}*@
+
+@foreach (var i in Model)
+{
+    <div>@i.matchCreation</div>
+}
+
+

@@ -11,8 +11,10 @@
 #load "FetchFunctions.fs"
 #load "RiotData.fs"
 
-let kf = SummonersGift.FetchFunctions.getSummoner "euw" [|"Proheme";"Khaos Force"|]
-kf.["proheme"]
+open SummonersGift.Data
 
+let fetch = DataFetcher([ApiKeys.keys.[0]])
 
+let a = fetch.GetSummonerId("EUW", "Proheme")
 
+Async.

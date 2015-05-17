@@ -1,9 +1,10 @@
 ﻿namespace SummonersGift.Data
 
+open SummonersGift.Models.Entity
 
 type Champions(version) =
     let buildChampionMap version =
-        use db = new SummonersGift.Entity.SgdbContext()
+        use db = new SgdbContext()
 
         let query = query { for champ in db.Champions do
                             where (champ.Version = version)
@@ -21,7 +22,7 @@ type Champions(version) =
 
 type Stat() =
     let buildStatMap version =
-        use db = new SummonersGift.Entity.SgdbContext()
+        use db = new SgdbContext()
 
         let query =
             query { for stat in db.Stats do

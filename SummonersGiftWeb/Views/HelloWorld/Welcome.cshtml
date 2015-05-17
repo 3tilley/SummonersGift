@@ -1,4 +1,4 @@
-﻿@model SummonersGift.Data.RiotTypes.Summoner
+﻿@model SummonersGift.Data.DataFetchResult<SummonersGift.Models.View.SummonerBasicViewModel>
 
 @{
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,10 +8,20 @@
     ViewBag.Title = "Index";
 }
 
-<h2>SummonerInformation</h2>
+<h2>Summoner Information</h2>
 
-<p>Welcome: @Model.Name</p>
+@{ if (@Model.Success)
+ {
+    <p>Welcome: @Model.GetResult.Name</p>
 
-<p>You are level: @Model.SummonerLevel</p>
+    <p>You are level: @Model.GetResult.SummonerLevel</p>
 
-<p>And were last active on: @Model.RevisionDate</p>
+    <p>And were last active on: @Model.GetResult.RevisionDate</p>
+ }
+   else
+   {
+       <p>No summoner information found...</p>
+   }
+
+
+}

@@ -1,4 +1,4 @@
-namespace SummonersGift.Entity
+namespace SummonersGift.Models.Entity
 {
     using System;
     using System.Data.Entity;

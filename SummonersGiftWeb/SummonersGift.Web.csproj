@@ -170,6 +170,7 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SummonerController.cs" />
+    <Compile Include="DataService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -239,10 +240,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\HelloWorld\Welcome.cshtml" />
     <Content Include="Views\Champion\Index.cshtml" />
+    <Content Include="Views\Summoner\Index.cshtml" />
+    <Content Include="Views\Summoner\SummonerByName.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Summoner\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -252,9 +254,9 @@
     <None Include="Project_Readme.html" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SummonersGift.Entity\SummonersGift.Entity.csproj">
+    <ProjectReference Include="..\SummonersGift.Entity\SummonersGift.Models.csproj">
       <Project>{a9e995dd-1801-45d0-b895-039b741eff2c}</Project>
-      <Name>SummonersGift.Entity</Name>
+      <Name>SummonersGift.Models</Name>
     </ProjectReference>
     <ProjectReference Include="..\SummonersGift\SummonersGift.Data.fsproj">
       <Project>{cb880491-d5dd-47f6-abbb-b28d6de1c5b7}</Project>

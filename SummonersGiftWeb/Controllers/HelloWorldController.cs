@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using SummonersGift.Web;
 
 namespace SummonersGift.Web.Controllers
 {
@@ -21,7 +22,7 @@ namespace SummonersGift.Web.Controllers
 
         public async Task<ActionResult> Welcome(string id)
         {
-            return View((await SummonersGift.Web.MvcApplication.DataFetcher.GetSummonerId("EUW", id)).Result);
+            return View(await DataService.DataFetcher.GetSummonerId("EUW", id));
         }
     }
 }

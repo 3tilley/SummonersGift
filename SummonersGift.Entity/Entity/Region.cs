@@ -1,4 +1,4 @@
-namespace SummonersGift.Entity
+namespace SummonersGift.Models.Entity
 {
     using System;
     using System.Collections.Generic;
@@ -6,24 +6,24 @@ namespace SummonersGift.Entity
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("Role")]
-    public partial class Role
+    [Table("Region")]
+    public partial class Region
     {
-        public Role()
+        public Region()
         {
             AggStats = new HashSet<AggStat>();
         }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public byte RoleId { get; set; }
+        public byte RegionId { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string RoleName { get; set; }
+        public string RegionName { get; set; }
 
         [Required]
         [StringLength(50)]
-        public string RoleJson { get; set; }
+        public string RegionJson { get; set; }
 
         public virtual ICollection<AggStat> AggStats { get; set; }
     }
