@@ -17,12 +17,5 @@ namespace SummonersGift.Web.Controllers
             return "<h1>Hello Lumphead...</h1>";
         }
 
-        //
-        // GET: /HelloWorld/Welcome/
-
-        public async Task<ActionResult> Welcome(string id)
-        {
-            return View(await DataService.DataFetcher.GetSummonerId("EUW", id));
-        }
     }
 }

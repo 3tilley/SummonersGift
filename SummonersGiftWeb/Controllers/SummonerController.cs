@@ -19,7 +19,7 @@ namespace SummonersGift.Web.Controllers
         public async Task<ActionResult> SummonerByName(string region, string name)
         {
             return View("SummonerByName",
-                    await DataService.DataFetcher.AsyncGetSummonerIdAndMatchesThisSeason(region, name));
+                    await DataService.DataFetcher.GetSummonerIdAndMatchesThisSeasonAsync(region, name));
         }
     }
 }

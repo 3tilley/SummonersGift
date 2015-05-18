@@ -64,18 +64,7 @@ module RiotRequest =
         | Data of string
         | Error of ErrorCode * string
 
-    let await (task : Task<'T>) =
-        task.ContinueWith(Func<Task<'T>,_>(fun i -> i.Result)).Result
-
-    let internal responseContinuation (response : HttpResponseMessage) =
-        match response.IsSuccessStatusCode with
-        | true ->
-            response.Content.ReadAsStringAsync() |> await |> Data
-        | false ->
-            Error(ErrorCode.fromStatusCode(response.StatusCode), response.ReasonPhrase)
-            
-
-    let riotCallAsync (url : string) =
+    let asyncRiotCall (url : string) =
         async {
             use client = new HttpClient()
             client.DefaultRequestHeaders.Accept.Clear()
@@ -89,13 +78,6 @@ module RiotRequest =
                 return Data(responseData)
                 }
 
-    let riotCall (url : string) =
-        use client = new HttpClient()
-        client.DefaultRequestHeaders.Accept.Clear()
-        client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"))
-        let response = client.GetAsync(url)
-        response |> await |> responseContinuation
-
 open RiotRequest
 
 
@@ -107,10 +89,10 @@ module RiotData =
     let buildMatchHistoryObject matchHistoryString =
         JsonConvert.DeserializeObject<MatchHistory_2_2>(matchHistoryString)
 
-    let tryGetSummonerAsync region escapedName key =
+    let asyncTryGetSummoner region escapedName key =
         async {
                 let url = buildSummonerNamesUrl region [escapedName] key.Key
-                let! riotData = riotCallAsync url
+                let! riotData = asyncRiotCall url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
@@ -121,12 +103,12 @@ module RiotData =
                         return None
             }
         
-    let tryGetMatchHistoryAsync region id (condition : Match -> bool) (reduce : Match -> 'T) key delay =
+    let asyncTryGetMatchHistory region id (condition : Match -> bool) (reduce : Match -> 'T) key delay =
         let matchList = new System.Collections.Generic.List<'T>()
         let rec getMatches index calls =
             async {
                 let url = buildMatchHistoryUrl region (string(id)) 0 key
-                let! hist = riotCallAsync url
+                let! hist = asyncRiotCall url
                 match hist with
                 | Data s ->
                     let histObj = buildMatchHistoryObject s
@@ -159,9 +141,9 @@ module RiotData =
                 | 1 -> keys |> Seq.head
                 | x when x >= 2 -> failwith "Multiple keys not supported"
 
-        member public x.AsyncGetSummonerIdAndMatchesThisSeason(region, escapedName) =
+        member public x.GetSummonerIdAndMatchesThisSeasonAsync(region, escapedName) =
             async {
-                let! summoner = tryGetSummonerAsync region escapedName key
+                let! summoner = asyncTryGetSummoner region escapedName key
                 match summoner with
                 | None ->
                     return Result.ErrorResult("Summoner not found", 1)
@@ -173,7 +155,7 @@ module RiotData =
                         let summonerId = n.Id
 
                         let! hist =
-                            tryGetMatchHistoryAsync region id (fun i -> i.Season = "SEASON2015")
+                            asyncTryGetMatchHistory region id (fun i -> i.Season = "SEASON2015")
                                  id key.Key (1.0 / key.ReqsPerSecond)
                         match hist with
                         | (None, x) ->
@@ -185,10 +167,10 @@ module RiotData =
                     }
                     |> Async.StartAsTask
 
-        member public x.AsyncGetSummonerId(region, escapedName) =
+        member public x.GetSummonerIdAsync(region, escapedName) =
             async {
                 let url = buildSummonerNamesUrl region [escapedName] key.Key
-                let! riotData = riotCallAsync url
+                let! riotData = asyncRiotCall url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
