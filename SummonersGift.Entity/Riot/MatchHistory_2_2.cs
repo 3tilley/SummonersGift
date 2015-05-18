@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,196 +7,191 @@ using System.Threading.Tasks;
 
 namespace SummonersGift.Models.Riot
 {
-    public class MatchHistory_2_2
-    {
-        public List<Match> matches { get; set; }
-    }
-
     public class CreepsPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class XpPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class GoldPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class CsDiffPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class XpDiffPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class DamageTakenPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class DamageTakenDiffPerMinDeltas
     {
-        public double zeroToTen { get; set; }
-        public double tenToTwenty { get; set; }
-        public double twentyToThirty { get; set; }
-        public double thirtyToEnd { get; set; }
+        public double ZeroToTen { get; set; }
+        public double TenToTwenty { get; set; }
+        public double TwentyToThirty { get; set; }
+        public double ThirtyToEnd { get; set; }
     }
 
     public class Timeline
     {
-        public CreepsPerMinDeltas creepsPerMinDeltas { get; set; }
-        public XpPerMinDeltas xpPerMinDeltas { get; set; }
-        public GoldPerMinDeltas goldPerMinDeltas { get; set; }
-        public CsDiffPerMinDeltas csDiffPerMinDeltas { get; set; }
-        public XpDiffPerMinDeltas xpDiffPerMinDeltas { get; set; }
-        public DamageTakenPerMinDeltas damageTakenPerMinDeltas { get; set; }
-        public DamageTakenDiffPerMinDeltas damageTakenDiffPerMinDeltas { get; set; }
-        public string role { get; set; }
-        public string lane { get; set; }
+        public CreepsPerMinDeltas CreepsPerMinDeltas { get; set; }
+        public XpPerMinDeltas XpPerMinDeltas { get; set; }
+        public GoldPerMinDeltas GoldPerMinDeltas { get; set; }
+        public CsDiffPerMinDeltas CsDiffPerMinDeltas { get; set; }
+        public XpDiffPerMinDeltas XpDiffPerMinDeltas { get; set; }
+        public DamageTakenPerMinDeltas DamageTakenPerMinDeltas { get; set; }
+        public DamageTakenDiffPerMinDeltas DamageTakenDiffPerMinDeltas { get; set; }
+        public string Role { get; set; }
+        public string Lane { get; set; }
     }
 
     public class Mastery
     {
-        public int masteryId { get; set; }
-        public int rank { get; set; }
+        public int MasteryId { get; set; }
+        public int Rank { get; set; }
     }
 
     public class Stats
     {
-        public bool winner { get; set; }
-        public int champLevel { get; set; }
-        public int item0 { get; set; }
-        public int item1 { get; set; }
-        public int item2 { get; set; }
-        public int item3 { get; set; }
-        public int item4 { get; set; }
-        public int item5 { get; set; }
-        public int item6 { get; set; }
-        public int kills { get; set; }
-        public int doubleKills { get; set; }
-        public int tripleKills { get; set; }
-        public int quadraKills { get; set; }
-        public int pentaKills { get; set; }
-        public int unrealKills { get; set; }
-        public int largestKillingSpree { get; set; }
-        public int deaths { get; set; }
-        public int assists { get; set; }
-        public int totalDamageDealt { get; set; }
-        public int totalDamageDealtToChampions { get; set; }
-        public int totalDamageTaken { get; set; }
-        public int largestCriticalStrike { get; set; }
-        public int totalHeal { get; set; }
-        public int minionsKilled { get; set; }
-        public int neutralMinionsKilled { get; set; }
-        public int neutralMinionsKilledTeamJungle { get; set; }
-        public int neutralMinionsKilledEnemyJungle { get; set; }
-        public int goldEarned { get; set; }
-        public int goldSpent { get; set; }
-        public int combatPlayerScore { get; set; }
-        public int objectivePlayerScore { get; set; }
-        public int totalPlayerScore { get; set; }
-        public int totalScoreRank { get; set; }
-        public int magicDamageDealtToChampions { get; set; }
-        public int physicalDamageDealtToChampions { get; set; }
-        public int trueDamageDealtToChampions { get; set; }
-        public int visionWardsBoughtInGame { get; set; }
-        public int sightWardsBoughtInGame { get; set; }
-        public int magicDamageDealt { get; set; }
-        public int physicalDamageDealt { get; set; }
-        public int trueDamageDealt { get; set; }
-        public int magicDamageTaken { get; set; }
-        public int physicalDamageTaken { get; set; }
-        public int trueDamageTaken { get; set; }
-        public bool firstBloodKill { get; set; }
-        public bool firstBloodAssist { get; set; }
-        public bool firstTowerKill { get; set; }
-        public bool firstTowerAssist { get; set; }
-        public bool firstInhibitorKill { get; set; }
-        public bool firstInhibitorAssist { get; set; }
-        public int inhibitorKills { get; set; }
-        public int towerKills { get; set; }
-        public int wardsPlaced { get; set; }
-        public int wardsKilled { get; set; }
-        public int largestMultiKill { get; set; }
-        public int killingSprees { get; set; }
-        public int totalUnitsHealed { get; set; }
-        public int totalTimeCrowdControlDealt { get; set; }
+        public bool Winner { get; set; }
+        public int ChampLevel { get; set; }
+        public int Item0 { get; set; }
+        public int Item1 { get; set; }
+        public int Item2 { get; set; }
+        public int Item3 { get; set; }
+        public int Item4 { get; set; }
+        public int Item5 { get; set; }
+        public int Item6 { get; set; }
+        public int Kills { get; set; }
+        public int DoubleKills { get; set; }
+        public int TripleKills { get; set; }
+        public int QuadraKills { get; set; }
+        public int PentaKills { get; set; }
+        public int UnrealKills { get; set; }
+        public int LargestKillingSpree { get; set; }
+        public int Deaths { get; set; }
+        public int Assists { get; set; }
+        public int TotalDamageDealt { get; set; }
+        public int TotalDamageDealtToChampions { get; set; }
+        public int TotalDamageTaken { get; set; }
+        public int LargestCriticalStrike { get; set; }
+        public int TotalHeal { get; set; }
+        public int MinionsKilled { get; set; }
+        public int NeutralMinionsKilled { get; set; }
+        public int NeutralMinionsKilledTeamJungle { get; set; }
+        public int NeutralMinionsKilledEnemyJungle { get; set; }
+        public int GoldEarned { get; set; }
+        public int GoldSpent { get; set; }
+        public int CombatPlayerScore { get; set; }
+        public int ObjectivePlayerScore { get; set; }
+        public int TotalPlayerScore { get; set; }
+        public int TotalScoreRank { get; set; }
+        public int MagicDamageDealtToChampions { get; set; }
+        public int PhysicalDamageDealtToChampions { get; set; }
+        public int TrueDamageDealtToChampions { get; set; }
+        public int VisionWardsBoughtInGame { get; set; }
+        public int SightWardsBoughtInGame { get; set; }
+        public int MagicDamageDealt { get; set; }
+        public int PhysicalDamageDealt { get; set; }
+        public int TrueDamageDealt { get; set; }
+        public int MagicDamageTaken { get; set; }
+        public int PhysicalDamageTaken { get; set; }
+        public int TrueDamageTaken { get; set; }
+        public bool FirstBloodKill { get; set; }
+        public bool FirstBloodAssist { get; set; }
+        public bool FirstTowerKill { get; set; }
+        public bool FirstTowerAssist { get; set; }
+        public bool FirstInhibitorKill { get; set; }
+        public bool FirstInhibitorAssist { get; set; }
+        public int InhibitorKills { get; set; }
+        public int TowerKills { get; set; }
+        public int WardsPlaced { get; set; }
+        public int WardsKilled { get; set; }
+        public int LargestMultiKill { get; set; }
+        public int KillingSprees { get; set; }
+        public int TotalUnitsHealed { get; set; }
+        public int TotalTimeCrowdControlDealt { get; set; }
     }
 
     public class Rune
     {
-        public int runeId { get; set; }
-        public int rank { get; set; }
+        public int RuneId { get; set; }
+        public int Rank { get; set; }
     }
 
     public class Participant
     {
-        public int teamId { get; set; }
-        public int spell1Id { get; set; }
-        public int spell2Id { get; set; }
-        public int championId { get; set; }
-        public string highestAchievedSeasonTier { get; set; }
-        public Timeline timeline { get; set; }
-        public List<Mastery> masteries { get; set; }
-        public Stats stats { get; set; }
-        public int participantId { get; set; }
-        public List<Rune> runes { get; set; }
+        public int TeamId { get; set; }
+        public int Spell1Id { get; set; }
+        public int Spell2Id { get; set; }
+        public int ChampionId { get; set; }
+        public string HighestAchievedSeasonTier { get; set; }
+        public Timeline Timeline { get; set; }
+        public List<Mastery> Masteries { get; set; }
+        public Stats Stats { get; set; }
+        public int ParticipantId { get; set; }
+        public List<Rune> Runes { get; set; }
     }
 
     public class Player
     {
-        public int summonerId { get; set; }
-        public string summonerName { get; set; }
-        public string matchHistoryUri { get; set; }
-        public int profileIcon { get; set; }
+        public int SummonerId { get; set; }
+        public string SummonerName { get; set; }
+        public string MatchHistoryUri { get; set; }
+        public int ProfileIcon { get; set; }
     }
 
     public class ParticipantIdentity
     {
-        public int participantId { get; set; }
-        public Player player { get; set; }
+        public int ParticipantId { get; set; }
+        public Player Player { get; set; }
     }
 
-    public class Match
+    public class Match_2_2
     {
-        public int matchId { get; set; }
-        public string region { get; set; }
-        public string platformId { get; set; }
-        public string matchMode { get; set; }
-        public string matchType { get; set; }
-        public object matchCreation { get; set; }
-        public int matchDuration { get; set; }
-        public string queueType { get; set; }
-        public int mapId { get; set; }
-        public string season { get; set; }
-        public string matchVersion { get; set; }
-        public List<Participant> participants { get; set; }
-        public List<ParticipantIdentity> participantIdentities { get; set; }
+        public int MatchId { get; set; }
+        public string Region { get; set; }
+        public string PlatformId { get; set; }
+        public string MatchMode { get; set; }
+        public string MatchType { get; set; }
+        public long MatchCreation { get; set; }
+        public int MatchDuration { get; set; }
+        public string QueueType { get; set; }
+        public int MapId { get; set; }
+        public string Season { get; set; }
+        public string MatchVersion { get; set; }
+        public List<Participant> Participants { get; set; }
+        public List<ParticipantIdentity> ParticipantIdentities { get; set; }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,7 +16,7 @@ namespace SummonersGift.Models.View
         public DateTime RevisionDate { get; set; }
         public string ProfileIconLocation { get; set; }
         public int SummonerLevel { get; set; }
-        
+
         public SummonerBasicViewModel(int id, string name, long revisionDate, int profileIconId, int summonerLevel)
         {
             Id = id;
@@ -30,5 +31,4 @@ namespace SummonersGift.Models.View
         {
         }
     }
-
 }

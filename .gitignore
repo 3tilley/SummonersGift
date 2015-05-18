@@ -4,6 +4,10 @@
 
 ApiKeys.fs
 
+#################
+## Data
+#################
+
 Data/
 
 #################
@@ -48,6 +52,7 @@ local.properties
 *.suo
 *.user
 *.sln.docstates
+*.vs
 
 # Build results
 
