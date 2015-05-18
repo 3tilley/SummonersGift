@@ -7,6 +7,11 @@ using System.Threading.Tasks;
 
 namespace SummonersGift.Models.Riot
 {
+    public class MatchHistory_2_2
+    {
+        public List<Match> Matches { get; set; }
+    }
+
     public class CreepsPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -178,7 +183,7 @@ namespace SummonersGift.Models.Riot
         public Player Player { get; set; }
     }
 
-    public class Match_2_2
+    public class Match
     {
         public int MatchId { get; set; }
         public string Region { get; set; }
