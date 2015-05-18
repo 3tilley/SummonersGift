@@ -18,7 +18,7 @@ module Endpoints =
     let baseUrl = @"https://euw.api.pvp.net"
 
     let matchHistoryEndpoint = 
-        """/api/lol/{region}/v2.2/matchhistory/{summonerId}/rankedQueues="RANKED_SOLO_5x5"?beginIndex={begin}&endIndex={end}"""
+        "/api/lol/{region}/v2.2/matchhistory/{summonerId}?rankedQueues=RANKED_SOLO_5x5&beginIndex={begin}&endIndex={end}"
 
     let summonerNamesEndpoint =
         @"/api/lol/{region}/v1.4/summoner/by-name/{summonerNames}"
@@ -34,7 +34,7 @@ module Endpoints =
 
     let buildMatchHistoryUrl region summonerId index key =
         matchHistoryEndpoint.Replace("{summonerId}",summonerId).Replace("{region}", region)
-            .Replace("{begin}",string(index)).Replace("{end}",string(index + 1))
+            .Replace("{begin}",string(index)).Replace("{end}",string(index + 14))
         |> addApiKey key
         |> (+) baseUrl
 

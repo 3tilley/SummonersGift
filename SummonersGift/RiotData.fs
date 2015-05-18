@@ -64,6 +64,10 @@ module RiotRequest =
         | Data of string
         | Error of ErrorCode * string
 
+    type InternalResult<'T> =
+        | Success of 'T
+        | Failure of string
+
     let asyncRiotCall (url : string) =
         async {
             use client = new HttpClient()
@@ -89,7 +93,7 @@ module RiotData =
     let buildMatchHistoryObject matchHistoryString =
         JsonConvert.DeserializeObject<MatchHistory_2_2>(matchHistoryString)
 
-    let asyncTryGetSummoner region escapedName key =
+    let asyncGetSummoner region escapedName key =
         async {
                 let url = buildSummonerNamesUrl region [escapedName] key.Key
                 let! riotData = asyncRiotCall url
@@ -98,16 +102,18 @@ module RiotData =
                     let jsonObj = buildSummonerObject s
                     match jsonObj.TryFind escapedName with
                     | Some x ->
-                        return Some jsonObj
+                        return Success jsonObj
                     | None ->
-                        return None
+                        return Failure "No summoner in object"
+                | Error(ec, mes) ->
+                    return Failure (ec.ToString() + mes)
             }
         
-    let asyncTryGetMatchHistory region id (condition : Match -> bool) (reduce : Match -> 'T) key delay =
+    let asyncGetMatchHistory region summonerId (condition : Match -> bool) (reduce : Match -> 'T) key delay =
         let matchList = new System.Collections.Generic.List<'T>()
         let rec getMatches index calls =
             async {
-                let url = buildMatchHistoryUrl region (string(id)) 0 key
+                let url = buildMatchHistoryUrl region (string(summonerId)) 0 key
                 let! hist = asyncRiotCall url
                 match hist with
                 | Data s ->
@@ -122,9 +128,9 @@ module RiotData =
                     | 15 ->
                         Async.Sleep(int(delay * 1000.0)) |> ignore
                         return! getMatches (index + 15) (calls + 1)
-                    | _ -> return (Some matchList, calls)
+                    | _ -> return (Success matchList, calls)
                 | Error(ec, mes) ->
-                    return (None, calls)
+                    return (Failure (mes), calls)
             }
         getMatches 0 0
 
@@ -143,11 +149,11 @@ module RiotData =
 
         member public x.GetSummonerIdAndMatchesThisSeasonAsync(region, escapedName) =
             async {
-                let! summoner = asyncTryGetSummoner region escapedName key
+                let! summoner = asyncGetSummoner region escapedName key
                 match summoner with
-                | None ->
-                    return Result.ErrorResult("Summoner not found", 1)
-                | Some sumMap ->
+                | Failure(mes) ->
+                    return Result.ErrorResult("Summoner not found: " + mes, 1)
+                | Success sumMap ->
                     match escapedName |> sumMap.TryFind with
                     | None ->
                         return Result.ErrorResult("Summoner not found", 1)
@@ -155,13 +161,13 @@ module RiotData =
                         let summonerId = n.Id
 
                         let! hist =
-                            asyncTryGetMatchHistory region id (fun i -> i.Season = "SEASON2015")
+                            asyncGetMatchHistory region summonerId (fun i -> i.Season = "SEASON2015")
                                  id key.Key (1.0 / key.ReqsPerSecond)
                         match hist with
-                        | (None, x) ->
+                        | (Failure s, x) ->
                             // One extra call for the summoner call above
-                            return Result.ErrorResult("Match history failure", x + 1)
-                        | (Some h, x) ->
+                            return Result.ErrorResult("Match history failure: " + s, x + 1)
+                        | (Success h, x) ->
                             // One extra call for the summoner call above
                             return Result.SuccessfulResult(h, x + 1)
                     }

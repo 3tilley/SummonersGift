@@ -8,6 +8,7 @@ open FsUnit
 open Newtonsoft.Json
 
 open SummonersGift.Models.Riot
+open SummonersGift.Data.RiotData
 
 module Json =
 
@@ -66,7 +67,7 @@ module Json =
 
         [<Test>]
         member x.``Check members of SummonerJson object`` () =
-            let d = JsonConvert.DeserializeObject<Map<string, Summoner_1_4>>(SummonerJson())
+            let d = buildSummonerObject(SummonerJson())
             d |> should haveCount 2
             d.ContainsKey "sambucatus" |> should be True
             d.ContainsKey "proheme" |> should be True
@@ -78,6 +79,6 @@ module Json =
 
         [<Test>]
         member x.``Check members of SummonerJson`` () =
-            let d = JsonConvert.DeserializeObject<MatchHistory_2_2>(MatchHistoryJson())
+            let d = buildMatchHistoryObject(MatchHistoryJson())
             d.Matches |> should haveCount 10
             d.Matches |> Seq.exists (fun i -> i.MatchId = 1792915017) |> should be True

@@ -1,7 +1,7 @@
 ﻿@using SummonersGift.Data;
 @using SummonersGift.Models;
 @using SummonersGift.Models.Riot;
-@model DataFetchResult<MatchHistory_2_2>
+@model DataFetchResult<List<Match>>
 
 
 @{
@@ -22,7 +22,7 @@
 
     <p>And were last active on: @Model.GetResult.RevisionDate</p>*@
 
-    foreach (Match i in Model.GetResult.Matches)
+    foreach (Match i in Model.GetResult)
     {
         <p>@i.MatchId</p>
     }
