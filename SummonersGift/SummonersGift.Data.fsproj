@@ -52,8 +52,7 @@
     <Compile Include="Utils.fs" />
     <Compile Include="ApiKeys.fs" />
     <Compile Include="FetchFunctions.fs" />
-    <Compile Include="Champions.fs" />
-    <Compile Include="StaticData.fs" />
+    <Compile Include="DataMaps.fs" />
     <Compile Include="RiotData.fs" />
     <None Include="DataDownloader.fsx" />
     <None Include="KosScripting.fsx" />

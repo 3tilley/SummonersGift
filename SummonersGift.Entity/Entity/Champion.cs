@@ -1,35 +1,35 @@
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Data.Entity.Spatial;
-
 namespace SummonersGift.Models.Entity
 {
+    using System;
+    using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Data.Entity.Spatial;
+
     [Table("Champion")]
     public partial class Champion
     {
-        public Champion()
-        {
-            AggStats = new HashSet<AggStat>();
-        }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public short ChampionId { get; set; }
-
-        [Required]
-        [StringLength(50)]
         public string Version { get; set; }
 
-        [Required]
-        [StringLength(50)]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public short Id { get; set; }
+
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(100)]
         public string Title { get; set; }
 
-        public virtual ICollection<AggStat> AggStats { get; set; }
+        public string full { get; set; }
+
+        public string group { get; set; }
+
+        public long? h { get; set; }
+
+        public string sprite { get; set; }
+
+        public long? w { get; set; }
+
+        public long? x { get; set; }
+
+        public long? y { get; set; }
     }
 }

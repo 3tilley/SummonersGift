@@ -22,3 +22,51 @@ select,
 textarea {
     max-width: 280px;
 }
+
+div.matchItem {
+    margin: 10px;
+    padding: 10px;
+    border-style: solid;
+    border-color: black;
+    display: block;
+    float: left;
+}
+
+div.won {
+    background-color: green;
+}
+
+div.lost {
+    background-color: red;
+}
+
+div.leftPanel {
+    float: left;
+    padding: 5px;
+}
+
+div.middlePanel {
+    padding: 5px;
+    float: left;
+    width: 250px;
+}
+
+div.rightPanel {
+    float: right;
+    padding: 5px;
+}
+
+div.champName {
+    font-size: 30px;
+    float: top;
+}
+
+div.spell {
+    display: inline;
+    margin-bottom: 5px;
+    margin-top: 40px;
+}
+
+div.kda {
+    font-size: 20px;
+}

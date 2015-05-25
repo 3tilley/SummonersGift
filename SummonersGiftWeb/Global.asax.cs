@@ -17,7 +17,12 @@ namespace SummonersGift.Web
             var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
             keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
 
-            DataService.DataFetcher = new SummonersGift.Data.RiotData.DataFetcher(keyList);
+            DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);
+            DataService.Champions = new Data.Champions("5.9.1");
+            DataService.Summoners = new Data.Summoners("5.9.1");
+
+            DataService.RoleAndLane = new Data.RoleAndLane();
+
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);

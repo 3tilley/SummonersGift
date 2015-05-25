@@ -26,14 +26,18 @@ module Endpoints =
     let summonerLeaguesEndpoint =
         @"/api/lol/{region}/v2.5/league/by-summoner/{summonerIds}/entry"
 
+    let matchEndpoint =
+        @"/api/lol/{region}/v2.2/match/{matchId}?includeTimeline={includeTimeline}"
+
     let addApiKey key (request : string) =
         if request.Contains("?") then
             request + "&api_key=" + key
         else
             request + "?api_key=" + key
 
-    let buildMatchHistoryUrl region summonerId index key =
-        matchHistoryEndpoint.Replace("{summonerId}",summonerId).Replace("{region}", region)
+    let buildMatchHistoryUrl region (summonerId : int) index key =
+        matchHistoryEndpoint.Replace("{summonerId}",string(summonerId))
+            .Replace("{region}", region)
             .Replace("{begin}",string(index)).Replace("{end}",string(index + 14))
         |> addApiKey key
         |> (+) baseUrl
@@ -47,8 +51,15 @@ module Endpoints =
         |> addApiKey key
         |> (+) baseUrl
 
-    let buildSummonerLeagues region summonerIds key =
+    let buildSummonerLeagues region (summonerIds : int seq) key =
         summonerLeaguesEndpoint.Replace("{region}", region)
-            .Replace("{summonerIds}", summonerIds |> String.concat ",")
+            .Replace("{summonerIds}", summonerIds |> Seq.map string |> String.concat ",")
+        |> addApiKey key
+        |> (+) baseUrl
+
+    let buildMatchUrl region (matchId : int) timeline key =
+        let timelineTruth = if timeline then "True" else "False"
+        matchEndpoint.Replace("{region}", region)
+            .Replace("{matchId}", string(matchId)).Replace("{includeTimeline}", timelineTruth)
         |> addApiKey key
         |> (+) baseUrl

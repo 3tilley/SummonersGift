@@ -40,6 +40,8 @@
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -52,13 +54,14 @@
     <Compile Include="Entity\Division.cs" />
     <Compile Include="Entity\Lane.cs" />
     <Compile Include="Entity\Region.cs" />
-    <Compile Include="Entity\Role.cs" />
     <Compile Include="Entity\Sgdb.cs" />
     <Compile Include="Entity\Stat.cs" />
+    <Compile Include="Entity\Summoner.cs" />
     <Compile Include="Entity\Tier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Riot\MatchHistory_2_2.cs" />
     <Compile Include="Riot\SummonersJson_1_4.cs" />
+    <Compile Include="Entity\Role.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="View\SummonerBasicViewModel.cs" />
   </ItemGroup>

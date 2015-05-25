@@ -242,6 +242,7 @@
     <Content Include="Views\Champion\Index.cshtml" />
     <Content Include="Views\Summoner\Index.cshtml" />
     <Content Include="Views\Summoner\SummonerByName.cshtml" />
+    <Content Include="Views\Shared\_MatchPartial.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

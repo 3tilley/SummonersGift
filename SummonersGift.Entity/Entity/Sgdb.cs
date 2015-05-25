@@ -21,6 +21,7 @@ namespace SummonersGift.Models.Entity
         public virtual DbSet<Stat> Stats { get; set; }
         public virtual DbSet<Tier> Tiers { get; set; }
         public virtual DbSet<AggStat> AggStats { get; set; }
+        public virtual DbSet<Summoner> Summoners { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -35,11 +36,6 @@ namespace SummonersGift.Models.Entity
             modelBuilder.Entity<Champion>()
                 .Property(e => e.Title)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Champion>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Champion)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Division>()
                 .Property(e => e.DivisionName)
@@ -82,11 +78,6 @@ namespace SummonersGift.Models.Entity
             modelBuilder.Entity<Role>()
                 .Property(e => e.RoleJson)
                 .IsUnicode(false);
-
-            modelBuilder.Entity<Role>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Role)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Stat>()
                 .Property(e => e.StatName)

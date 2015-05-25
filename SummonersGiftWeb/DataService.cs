@@ -9,5 +9,8 @@ namespace SummonersGift.Web
     {
         public static SummonersGift.Data.RiotData.DataFetcher DataFetcher = null;
 
+        public static SummonersGift.Data.Champions Champions = null;
+        public static SummonersGift.Data.Summoners Summoners = null;
+        public static SummonersGift.Data.RoleAndLane RoleAndLane = null;
     }
 }

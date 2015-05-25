@@ -19,8 +19,9 @@ type DataFetchResult<'T> =
         Result          : 'T option
         ErrorMessage    : string
         ApiCalls        : int
-        DatabaseCalls    : int
-        RedisCalls       : int
+        DatabaseCalls   : int
+        RedisCalls      : int
+        TimeTaken       : TimeSpan
     }
         member x.GetResult =
             match x.Success with
@@ -28,21 +29,23 @@ type DataFetchResult<'T> =
             | false -> failwith "No result available"
 
 type internal Result private () =
-    static member SuccessfulResult(result, apiCalls, ?dbCalls, ?redisCalls) =
+    static member SuccessfulResult(result, start, apiCalls, ?dbCalls, ?redisCalls) =
         {   Success = true
             Result = Some result
             ErrorMessage = null
             ApiCalls = apiCalls
             DatabaseCalls = if dbCalls.IsNone then 0 else dbCalls.Value
-            RedisCalls = if redisCalls.IsNone then 0 else redisCalls.Value }
+            RedisCalls = if redisCalls.IsNone then 0 else redisCalls.Value
+            TimeTaken = DateTime.UtcNow - start }
 
-    static member ErrorResult(message, apiCalls, ?dbCalls, ?redisCalls) =
+    static member ErrorResult(message, start, apiCalls, ?dbCalls, ?redisCalls) =
         {   Success = false
             Result = None
             ErrorMessage = message
             ApiCalls = apiCalls
             DatabaseCalls = if dbCalls.IsNone then 0 else dbCalls.Value
-            RedisCalls = if redisCalls.IsNone then 0 else redisCalls.Value }
+            RedisCalls = if redisCalls.IsNone then 0 else redisCalls.Value
+            TimeTaken = DateTime.UtcNow - start }
 
 module RiotRequest =
 
@@ -113,7 +116,7 @@ module RiotData =
         let matchList = new System.Collections.Generic.List<'T>()
         let rec getMatches index calls =
             async {
-                let url = buildMatchHistoryUrl region (string(summonerId)) 0 key
+                let url = buildMatchHistoryUrl region (summonerId) 0 key
                 let! hist = asyncRiotCall url
                 match hist with
                 | Data s ->
@@ -128,9 +131,11 @@ module RiotData =
                     | 15 ->
                         Async.Sleep(int(delay * 1000.0)) |> ignore
                         return! getMatches (index + 15) (calls + 1)
-                    | _ -> return (Success matchList, calls)
+                    | _ -> 
+                        matchList.Reverse()
+                        return (Success matchList, calls + 1)
                 | Error(ec, mes) ->
-                    return (Failure (mes), calls)
+                    return (Failure (mes), calls + 1)
             }
         getMatches 0 0
 
@@ -149,14 +154,15 @@ module RiotData =
 
         member public x.GetSummonerIdAndMatchesThisSeasonAsync(region, escapedName) =
             async {
+                let start = DateTime.UtcNow
                 let! summoner = asyncGetSummoner region escapedName key
                 match summoner with
                 | Failure(mes) ->
-                    return Result.ErrorResult("Summoner not found: " + mes, 1)
+                    return Result.ErrorResult("Summoner not found: " + mes, start, 1)
                 | Success sumMap ->
                     match escapedName |> sumMap.TryFind with
                     | None ->
-                        return Result.ErrorResult("Summoner not found", 1)
+                        return Result.ErrorResult("Summoner not found", start, 1)
                     | Some n ->
                         let summonerId = n.Id
 
@@ -166,15 +172,16 @@ module RiotData =
                         match hist with
                         | (Failure s, x) ->
                             // One extra call for the summoner call above
-                            return Result.ErrorResult("Match history failure: " + s, x + 1)
+                            return Result.ErrorResult("Match history failure: " + s, start, x + 1)
                         | (Success h, x) ->
                             // One extra call for the summoner call above
-                            return Result.SuccessfulResult(h, x + 1)
+                            return Result.SuccessfulResult((SummonerBasicViewModel n, h), start, x + 1)
                     }
                     |> Async.StartAsTask
 
         member public x.GetSummonerIdAsync(region, escapedName) =
             async {
+                let start = DateTime.UtcNow
                 let url = buildSummonerNamesUrl region [escapedName] key.Key
                 let! riotData = asyncRiotCall url
                 match riotData with
@@ -182,11 +189,11 @@ module RiotData =
                     let jsonObj = buildSummonerObject s
                     match jsonObj.TryFind escapedName with
                     | Some x ->
-                        return Result.SuccessfulResult(SummonerBasicViewModel x, 1)
+                        return Result.SuccessfulResult(SummonerBasicViewModel x, start, 1)
                     | None ->
-                        return Result.ErrorResult("The summoner was not found", 1)
+                        return Result.ErrorResult("The summoner was not found", start, 1)
                 | Error(ec, reason) ->
-                    return Result.ErrorResult(reason, 1)
+                    return Result.ErrorResult(reason, start, 1)
                 }
                 |> Async.StartAsTask
        
