@@ -15,7 +15,7 @@ open FSharp.Data
 
 module Endpoints =
 
-    let baseUrl = @"https://euw.api.pvp.net"
+    let baseUrl = @"https://{region}.api.pvp.net"
 
     let matchHistoryEndpoint = 
         "/api/lol/{region}/v2.2/matchhistory/{summonerId}?rankedQueues=RANKED_SOLO_5x5&beginIndex={begin}&endIndex={end}"
@@ -36,30 +36,26 @@ module Endpoints =
             request + "?api_key=" + key
 
     let buildMatchHistoryUrl region (summonerId : int) index key =
-        matchHistoryEndpoint.Replace("{summonerId}",string(summonerId))
+        (baseUrl + matchHistoryEndpoint).Replace("{summonerId}",string(summonerId))
             .Replace("{region}", region)
-            .Replace("{begin}",string(index)).Replace("{end}",string(index + 14))
+            .Replace("{begin}",string(index)).Replace("{end}",string(index + 15))
         |> addApiKey key
-        |> (+) baseUrl
 
     let buildSummonerNamesUrl region (summonerNames : string seq) key =
         let escapedNames =
             summonerNames
             |> Seq.map System.Web.HttpUtility.HtmlEncode
             |> String.concat ","
-        summonerNamesEndpoint.Replace("{summonerNames}", escapedNames).Replace("{region}", region)
+        (baseUrl + summonerNamesEndpoint).Replace("{summonerNames}", escapedNames).Replace("{region}", region)
         |> addApiKey key
-        |> (+) baseUrl
 
     let buildSummonerLeagues region (summonerIds : int seq) key =
-        summonerLeaguesEndpoint.Replace("{region}", region)
+        (baseUrl + summonerLeaguesEndpoint).Replace("{region}", region)
             .Replace("{summonerIds}", summonerIds |> Seq.map string |> String.concat ",")
         |> addApiKey key
-        |> (+) baseUrl
 
     let buildMatchUrl region (matchId : int) timeline key =
         let timelineTruth = if timeline then "True" else "False"
-        matchEndpoint.Replace("{region}", region)
+        (baseUrl + matchEndpoint).Replace("{region}", region)
             .Replace("{matchId}", string(matchId)).Replace("{includeTimeline}", timelineTruth)
         |> addApiKey key
-        |> (+) baseUrl

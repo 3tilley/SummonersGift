@@ -116,12 +116,12 @@ module RiotData =
         let matchList = new System.Collections.Generic.List<'T>()
         let rec getMatches index calls =
             async {
-                let url = buildMatchHistoryUrl region (summonerId) 0 key
+                let url = buildMatchHistoryUrl region (summonerId) index key
                 let! hist = asyncRiotCall url
                 match hist with
                 | Data s ->
                     let histObj = buildMatchHistoryObject s
-                
+                    histObj.Matches.Reverse()
                     let filtered =
                         histObj.Matches
                         |> Seq.filter condition
@@ -132,7 +132,6 @@ module RiotData =
                         Async.Sleep(int(delay * 1000.0)) |> ignore
                         return! getMatches (index + 15) (calls + 1)
                     | _ -> 
-                        matchList.Reverse()
                         return (Success matchList, calls + 1)
                 | Error(ec, mes) ->
                     return (Failure (mes), calls + 1)

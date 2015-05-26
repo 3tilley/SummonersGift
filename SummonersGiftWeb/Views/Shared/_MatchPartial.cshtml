@@ -2,14 +2,15 @@
 @model Match
 
 @{
-var partObj = Model.Participants.Single();
-var result = partObj.Stats.Winner ? "won" : "lost";
-var classes = "matchItem " + result;
-var champ = DataService.Champions.ChampOrNull(partObj.ChampionId);
-var spell1 = DataService.Summoners.SpellOrNull(partObj.Spell1Id);
-var spell2 = DataService.Summoners.SpellOrNull(partObj.Spell2Id);
-var role = DataService.RoleAndLane.RoleOrDefault(partObj.Timeline.Role, " ");
-var lane = DataService.RoleAndLane.LaneOrDefault(partObj.Timeline.Lane, " ");
+    var partObj = Model.Participants.Single();
+    var result = partObj.Stats.Winner ? "won" : "lost";
+    var classes = "matchItem " + result;
+    var champ = DataService.Champions.ChampOrNull(partObj.ChampionId);
+    var spell1 = DataService.Summoners.SpellOrNull(partObj.Spell1Id);
+    var spell2 = DataService.Summoners.SpellOrNull(partObj.Spell2Id);
+    var role = DataService.RoleAndLane.RoleOrDefault(partObj.Timeline.Role, " ");
+    var lane = DataService.RoleAndLane.LaneOrDefault(partObj.Timeline.Lane, " ");
+    var formattedTime = SummonersGift.Models.Utils.ConvertFromEpochMilliseconds(@Model.MatchCreation);
 }
 
 @if (champ!=null)
@@ -23,6 +24,8 @@ var lane = DataService.RoleAndLane.LaneOrDefault(partObj.Timeline.Lane, " ");
     </div>
     <div class="middlePanel">
         <div class="champName">@champ.Name</div>
+        <div class="role">@role</div>
+        <div class="lane">@lane</div>
         <div class="spell">
             <img src="@DataService.Summoners.SquareBase@spell1.Full"
                  alt="@spell1.Name" height="48" width="48"/>
@@ -31,13 +34,12 @@ var lane = DataService.RoleAndLane.LaneOrDefault(partObj.Timeline.Lane, " ");
             <img src="@DataService.Summoners.SquareBase@spell2.Full"
                  alt="@spell2.Name" height="48" width="48"/>
         </div>
-        <div class="role">@role</div>
-        <div class="lane">@lane</div>
     </div>
     <div class="rightPanel">
         <div class="kda">
             <span class="kills">@partObj.Stats.Kills</span>/<span class="deaths">@partObj.Stats.Deaths</span>/<span class="assists">@partObj.Stats.Assists</span>
         </div>
+        <span class="matchTime">@formattedTime</span>
     </div>
 </div>
 }

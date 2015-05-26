@@ -24,20 +24,28 @@ textarea {
 }
 
 div.matchItem {
-    margin: 10px;
+    margin: 10px auto 10px auto;
     padding: 10px;
     border-style: solid;
     border-color: black;
     display: block;
-    float: left;
+    height: 160px;
+    width: 800px;
+    
 }
 
 div.won {
-    background-color: green;
+    aabackground: url("../Images/victory.png") no-repeat center center;
+    background-color: #94FFDB;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 div.lost {
-    background-color: red;
+    aabackground: url("../Images/defeat.png") no-repeat center center;
+    background-color: #FF8080;
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
 div.leftPanel {
@@ -48,12 +56,17 @@ div.leftPanel {
 div.middlePanel {
     padding: 5px;
     float: left;
-    width: 250px;
+    width:auto;
+
 }
 
 div.rightPanel {
+    display: block;
     float: right;
     padding: 5px;
+    position: relative;
+    height: 160px;
+    width: auto;
 }
 
 div.champName {
@@ -68,5 +81,12 @@ div.spell {
 }
 
 div.kda {
-    font-size: 20px;
+    font-size: 22px;
+}
+
+span.matchTime {
+    position: absolute;
+    padding: 10px;
+    bottom: 0;
+    white-space: nowrap;
 }

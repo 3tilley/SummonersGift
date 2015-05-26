@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace SummonersGift.Models
 {
-    internal class Utils
+    public class Utils
     {
         static public DateTime ConvertFromEpochMilliseconds(long unixTime)
         {
