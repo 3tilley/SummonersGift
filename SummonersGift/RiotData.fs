@@ -90,11 +90,21 @@ open RiotRequest
 
 module RiotData =
 
+    type Rank =
+        {
+            Tier : string
+            Division : string
+        }
+
     let buildSummonerObject summonerResponseString =
         JsonConvert.DeserializeObject<Map<string, Summoner_1_4>>(summonerResponseString)
 
     let buildMatchHistoryObject matchHistoryString =
         JsonConvert.DeserializeObject<MatchHistory_2_2>(matchHistoryString)
+
+    let buildLeagueObject leagueResponseString =
+        JsonConvert.DeserializeObject<Map<int, List<LeagueJson_2_5>>>(leagueResponseString)
+
 
     let asyncGetSummoner region escapedName key =
         async {
@@ -105,7 +115,7 @@ module RiotData =
                     let jsonObj = buildSummonerObject s
                     match jsonObj.TryFind escapedName with
                     | Some x ->
-                        return Success jsonObj
+                        return Success x
                     | None ->
                         return Failure "No summoner in object"
                 | Error(ec, mes) ->
@@ -138,6 +148,39 @@ module RiotData =
             }
         getMatches 0 0
 
+    let asyncGetSummonerLeague region summonerId key =
+        async {
+                let url = buildSummonerLeagues region [summonerId] key
+                let! riotData = asyncRiotCall url
+                match riotData with
+                | Data s ->
+                    let jsonObj = buildLeagueObject s
+                    match jsonObj.TryFind summonerId with
+                    | Some x ->
+                        return Success x
+                    | None ->
+                        return Failure "No summoner in object"
+                | Error(ec, mes) ->
+                    return Failure (ec.ToString() + mes)
+                }
+
+    let asyncGetSummonerRankedSoloLeague region summonerId key =
+        async {
+            let! maybeLeagues = asyncGetSummonerLeague region summonerId key
+            match maybeLeagues with
+            | Failure x ->
+                return Failure x
+            | Success leagues ->
+                let soloQueue =
+                    leagues
+                    |> List.tryFind (fun i -> i.Queue = "RANKED_SOLO_5x5")
+                match soloQueue with
+                | None ->
+                    return Success None
+                | Some x ->
+                    return Success (Some { Tier = x.Tier; Division = x.Entries.[0].Division })
+            }
+
     type DataFetcher(keys : ApiKey seq) =
 
         let settings = new JsonSerializerSettings()
@@ -151,32 +194,40 @@ module RiotData =
                 | 1 -> keys |> Seq.head
                 | x when x >= 2 -> failwith "Multiple keys not supported"
 
-        member public x.GetSummonerIdAndMatchesThisSeasonAsync(region, escapedName) =
+        member public x.GetSummonerLeagueAndMatchesThisSeasonAsync(region, escapedName) =
             async {
                 let start = DateTime.UtcNow
                 let! summoner = asyncGetSummoner region escapedName key
                 match summoner with
                 | Failure(mes) ->
                     return Result.ErrorResult("Summoner not found: " + mes, start, 1)
-                | Success sumMap ->
-                    match escapedName |> sumMap.TryFind with
-                    | None ->
-                        return Result.ErrorResult("Summoner not found", start, 1)
-                    | Some n ->
-                        let summonerId = n.Id
+                | Success sumObj ->
+                    let summonerId = sumObj.Id
 
-                        let! hist =
-                            asyncGetMatchHistory region summonerId (fun i -> i.Season = "SEASON2015")
-                                 id key.Key (1.0 / key.ReqsPerSecond)
-                        match hist with
-                        | (Failure s, x) ->
-                            // One extra call for the summoner call above
-                            return Result.ErrorResult("Match history failure: " + s, start, x + 1)
-                        | (Success h, x) ->
-                            // One extra call for the summoner call above
-                            return Result.SuccessfulResult((SummonerBasicViewModel n, h), start, x + 1)
-                    }
-                    |> Async.StartAsTask
+                    Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
+
+                    let! league =
+                        asyncGetSummonerRankedSoloLeague region summonerId key.Key
+                            
+                    Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
+
+                    let! hist =
+                        asyncGetMatchHistory region summonerId (fun i -> i.Season = "SEASON2015")
+                                id key.Key (1.0 / key.ReqsPerSecond)
+                    match hist with
+                    | (Failure s, x) ->
+                        // Two extra calls for the summoner and league call above
+                        return Result.ErrorResult("Match history failure: " + s, start, x + 2)
+                    | (Success h, x) ->
+                        // Two extra calls for the summoner and league call above
+                        match league with
+                        | Success rankResult ->
+                            let (tier, div) = match rankResult with | Some r -> r.Tier, r.Division | None -> null, null
+                            return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h), start, x + 2)
+                        | Failure x ->
+                            return Result.ErrorResult("Could not find summoner leagues", start, 2)
+                }
+                |> Async.StartAsTask
 
         member public x.GetSummonerIdAsync(region, escapedName) =
             async {
@@ -188,7 +239,14 @@ module RiotData =
                     let jsonObj = buildSummonerObject s
                     match jsonObj.TryFind escapedName with
                     | Some x ->
-                        return Result.SuccessfulResult(SummonerBasicViewModel x, start, 1)
+                        let! rank = asyncGetSummonerRankedSoloLeague region x.Id key.Key
+                        match rank with
+                        | Success(Some r) ->
+                            return Result.SuccessfulResult(SummonerBasicViewModel(x, r.Tier, r.Division), start, 2)
+                        | Success None ->
+                            return Result.SuccessfulResult(SummonerBasicViewModel(x, null, null), start, 2)
+                        | Failure x ->
+                            return Result.ErrorResult("Could not find summoner leagues", start, 2)
                     | None ->
                         return Result.ErrorResult("The summoner was not found", start, 1)
                 | Error(ec, reason) ->

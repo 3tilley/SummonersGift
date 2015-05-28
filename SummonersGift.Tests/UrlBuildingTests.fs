@@ -19,7 +19,7 @@ type Urls() =
 
     let expectedSummoner = "https://euw.api.pvp.net/api/lol/euw/v1.4/summoner/by-name/proheme?api_key=dummy_key"
     let expectedMatchHistory =
-        "https://euw.api.pvp.net/api/lol/euw/v2.2/matchhistory/43518871?rankedQueues=RANKED_SOLO_5x5&beginIndex=0&endIndex=14&api_key=dummy_key"
+        "https://euw.api.pvp.net/api/lol/euw/v2.2/matchhistory/43518871?rankedQueues=RANKED_SOLO_5x5&beginIndex=0&endIndex=15&api_key=dummy_key"
     let expectedLeague =
         "https://euw.api.pvp.net/api/lol/euw/v2.5/league/by-summoner/43518871/entry?api_key=dummy_key"
     let expectedMatch =

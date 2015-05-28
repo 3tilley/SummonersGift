@@ -15,11 +15,11 @@ namespace SummonersGift.Web.Controllers
             return View("Index");
         }
 
-        // GET: Summoner?region=...&name=...
+        // GET: Summoner/region/name
         public async Task<ActionResult> SummonerByName(string region, string name)
         {
             return View("SummonerByName",
-                    await DataService.DataFetcher.GetSummonerIdAndMatchesThisSeasonAsync(region, name));
+                    await DataService.DataFetcher.GetSummonerLeagueAndMatchesThisSeasonAsync(region, name));
         }
     }
 }

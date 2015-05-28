@@ -77,7 +77,7 @@ type Summoners(version) =
 
 
 type Stat() =
-    let buildStatMap version =
+    let buildStatMap =
         use db = new SgdbContext()
 
         let query =
@@ -87,6 +87,30 @@ type Stat() =
         query
         |> Seq.map (fun s -> s.StatId, s.StatName)
         |> Map.ofSeq
+
+    let map = buildStatMap
+
+    member x.StatMap = map
+
+type Rank() =
+    let buildRankMap =
+        use db = new SgdbContext()
+
+        let queryT =
+            query { for tier in db.Tiers do
+                    select tier }
+        
+        let queryD =
+            query { for div in db.Divisions do
+                    select div }
+
+        (queryT, queryD)
+        ||> Seq.map2 (fun i j -> ((i.TierJson, j.DivisionJson), (i.TierId, j.DivisionId)))
+        |> Map.ofSeq
+
+    let map = buildRankMap
+
+    member x.RankMap = map
 
 type RoleAndLane() =
     let (laneQuery, roleQuery) =

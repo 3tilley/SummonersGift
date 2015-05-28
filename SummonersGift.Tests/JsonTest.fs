@@ -11,7 +11,9 @@ open SummonersGift.Models.Riot
 open SummonersGift.Data.RiotData
 
 module Json =
-
+    
+    let prohemeName = "proheme"
+    let prohemeId = 43518871
     
     let readJsonFile filename =
         filename
@@ -19,11 +21,13 @@ module Json =
 
     let summonerJsonFile = __SOURCE_DIRECTORY__ +  @"\..\ExampleJson\summoner-v1.4.json"
     let matchHistoryFile = __SOURCE_DIRECTORY__ +  @"\..\ExampleJson\matchhistory-v2.2.json"
+    let leagueEntryFile = __SOURCE_DIRECTORY__ +  @"\..\ExampleJson\league-entry-v2.5.json"
 
-    let jsonFiles = [summonerJsonFile; matchHistoryFile]
+    let jsonFiles = [summonerJsonFile; matchHistoryFile; leagueEntryFile]
 
     let mutable summonerJson : string = null
     let mutable matchHistoryJson : string = null
+    let mutable leagueEntryJson : string = null
 
     let SummonerJson() =
         match summonerJson with
@@ -39,6 +43,12 @@ module Json =
             matchHistoryJson
         | x -> x
 
+    let LeagueEntryJson() =
+        match leagueEntryJson with
+        | null ->
+            leagueEntryJson <- readJsonFile leagueEntryFile
+            leagueEntryJson
+        | x -> x
     
     [<TestFixture>]
     type JsonConverters() =
@@ -82,3 +92,16 @@ module Json =
             let d = buildMatchHistoryObject(MatchHistoryJson())
             d.Matches |> should haveCount 10
             d.Matches |> Seq.exists (fun i -> i.MatchId = 1792915017) |> should be True
+
+        [<Test>]
+        member x.``Deserialise summoner leagues into generic list`` () =
+            let d = JsonConvert.DeserializeObject<Map<int, List<LeagueJson_2_5>>>(LeagueEntryJson())
+            ()
+
+        [<Test>]
+        member x.``Check members of LeagueEntryJson`` () =
+            let d = buildLeagueObject(LeagueEntryJson())
+            d |> should haveCount 2
+            d.ContainsKey (prohemeId) |> should be True
+            d.[prohemeId] |> should haveLength 1
+            d.[prohemeId].[0].Entries.[0].Division |> should equal "V"
