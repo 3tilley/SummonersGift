@@ -45,10 +45,6 @@ namespace SummonersGift.Models.Entity
                 .Property(e => e.DivisionJson)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Division>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Division)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Lane>()
                 .Property(e => e.LaneName)
@@ -66,10 +62,6 @@ namespace SummonersGift.Models.Entity
                 .Property(e => e.RegionJson)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Region>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Region)
-                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Role>()
                 .Property(e => e.RoleName)
@@ -95,11 +87,6 @@ namespace SummonersGift.Models.Entity
                 .Property(e => e.JsonPath)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Stat>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Stat)
-                .WillCascadeOnDelete(false);
-
             modelBuilder.Entity<Tier>()
                 .Property(e => e.TierName)
                 .IsUnicode(false);
@@ -108,10 +95,6 @@ namespace SummonersGift.Models.Entity
                 .Property(e => e.TierJson)
                 .IsUnicode(false);
 
-            modelBuilder.Entity<Tier>()
-                .HasMany(e => e.AggStats)
-                .WithRequired(e => e.Tier)
-                .WillCascadeOnDelete(false);
         }
     }
 }

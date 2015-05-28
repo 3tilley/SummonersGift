@@ -15,12 +15,18 @@ module DatabaseData =
     let query tId dId =
         query {
             for stat in db.AggStats do
-            where ((stat.TierId = tId) && (stat.DivisionId = dId))
+            where ((stat.TierId = tId)
+                && (stat.DivisionId = dId)
+                && (stat.ChampionId = 0s )
+                && (stat.RoleId = 0uy)
+                && (stat.Winner = System.Nullable())
+                && (stat.IsBlue = System.Nullable()))
             select stat }
 
-    let stats(tier, division, matches : Match seq) =
+    let stats(tier, division) =
         
+        // TODO: Fix these conversions
         let (tierId, divId) = rankMap.[(tier, division)]
         query tierId divId
         |> Seq.toArray
-        |> Array.map (fun i -> StatBasicViewModel(i.StatId, statMap[i], i.mean )
+        |> Array.map (fun i -> StatBasicViewModel(byte(i.StatId), statMap.[i.StatId], i.mean.Value, 0.0) )

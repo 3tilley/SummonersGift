@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Entity\AggStat.cs" />
+    <Compile Include="Entity\AggStat2.cs" />
     <Compile Include="Entity\Champion.cs" />
     <Compile Include="Entity\Division.cs" />
     <Compile Include="Entity\Lane.cs" />

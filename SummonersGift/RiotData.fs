@@ -223,7 +223,8 @@ module RiotData =
                         match league with
                         | Success rankResult ->
                             let (tier, div) = match rankResult with | Some r -> r.Tier, r.Division | None -> null, null
-                            return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h), start, x + 2)
+                            let stats = DatabaseData.stats(tier, div)
+                            return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h, stats), start, x + 2)
                         | Failure x ->
                             return Result.ErrorResult("Could not find summoner leagues", start, 2)
                 }

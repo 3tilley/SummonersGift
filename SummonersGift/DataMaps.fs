@@ -104,8 +104,12 @@ type Rank() =
             query { for div in db.Divisions do
                     select div }
 
-        (queryT, queryD)
-        ||> Seq.map2 (fun i j -> ((i.TierJson, j.DivisionJson), (i.TierId, j.DivisionId)))
+        let cross =
+            seq { for i in queryT do
+                    for j in queryD -> (i,j)}
+
+        cross
+        |> Seq.map (fun (i, j) -> ((i.TierJson, j.DivisionJson), (i.TierId, j.DivisionId)))
         |> Map.ofSeq
 
     let map = buildRankMap
