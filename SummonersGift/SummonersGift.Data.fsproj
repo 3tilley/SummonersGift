@@ -51,6 +51,7 @@
   <ItemGroup>
     <Compile Include="Utils.fs" />
     <Compile Include="ApiKeys.fs" />
+    <Compile Include="StatFunctions.fs" />
     <Compile Include="FetchFunctions.fs" />
     <Compile Include="DataMaps.fs" />
     <Compile Include="DatabaseData.fs" />

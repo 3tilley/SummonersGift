@@ -113,7 +113,8 @@ module RiotData =
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
-                    match jsonObj.TryFind escapedName with
+                    let nameKey = escapedName.ToLower().Replace(" ", "")
+                    match jsonObj.TryFind nameKey with
                     | Some x ->
                         return Success x
                     | None ->
@@ -222,8 +223,12 @@ module RiotData =
                         // Two extra calls for the summoner and league call above
                         match league with
                         | Success rankResult ->
-                            let (tier, div) = match rankResult with | Some r -> r.Tier, r.Division | None -> null, null
-                            let stats = DatabaseData.stats(tier, div)
+                            let ((tier, div), stats) =
+                                match rankResult with
+                                | Some r ->
+                                    let stats = DatabaseData.stats(r.Tier, r.Division, h)
+                                    ((r.Tier, r.Division), stats)
+                                | None -> ((null, null), null)
                             return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h, stats), start, x + 2)
                         | Failure x ->
                             return Result.ErrorResult("Could not find summoner leagues", start, 2)

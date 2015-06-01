@@ -13,6 +13,22 @@ namespace SummonersGift.Web
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //routes.MapRoute(
+            //    name: "Summoner",
+            //    url: "Summoner",
+            //    defaults: new
+            //    {
+            //        controller = "Summoner",
+            //        action = "Index"
+            //    }
+            //);
+
+            routes.MapRoute(
+                name: "SummonerByName",
+                url: "Summoner",
+                defaults: new { controller = "Summoner", action = "SummonerByName" }
+            );
+
             routes.MapRoute(
                 name: "Summoner",
                 url: "Summoner",
@@ -21,13 +37,6 @@ namespace SummonersGift.Web
                     controller = "Summoner",
                     action = "Index"
                 }
-            );
-
-            routes.MapRoute(
-                name: "SummonerByName",
-                url: "Summoner/{region}/{name}",
-                defaults: new { controller = "Summoner", action = "SummonerByName",
-                                region = UrlParameter.Optional, name = UrlParameter.Optional }
             );
 
             routes.MapRoute(

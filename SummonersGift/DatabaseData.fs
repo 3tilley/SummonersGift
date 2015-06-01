@@ -20,13 +20,19 @@ module DatabaseData =
                 && (stat.ChampionId = 0s )
                 && (stat.RoleId = 0uy)
                 && (stat.Winner = System.Nullable())
-                && (stat.IsBlue = System.Nullable()))
+                && (stat.IsBlue = System.Nullable())
+                && (stat.StatId <= 4s))
             select stat }
 
-    let stats(tier, division) =
+    let stats(tier, division, matches) =
         
         // TODO: Fix these conversions
         let (tierId, divId) = rankMap.[(tier, division)]
         query tierId divId
         |> Seq.toArray
-        |> Array.map (fun i -> StatBasicViewModel(byte(i.StatId), statMap.[i.StatId], i.mean.Value, 0.0) )
+        |> Array.map (fun i ->
+            let sumStats =
+                matches
+                |> Seq.map StatFunctions.statFuncMap.[i.StatId]
+                |> Seq.average
+            StatBasicViewModel(byte(i.StatId), statMap.[i.StatId], i.mean.Value, sumStats) )

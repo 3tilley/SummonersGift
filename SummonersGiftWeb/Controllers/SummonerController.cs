@@ -10,14 +10,21 @@ namespace SummonersGift.Web.Controllers
     public class SummonerController : Controller
     {
         // GET: Summoner
-        public ActionResult Index()
+        public ActionResult SummonerLookup()
         {
+            ViewBag.Title = "Lookup Summoner";
             return View("Index");
         }
 
         // GET: Summoner/region/name
         public async Task<ActionResult> SummonerByName(string region, string name)
         {
+            if ((region==null) | (name==null))
+            {
+                return SummonerLookup();
+            }
+            ViewBag.Title = name;
+
             return View("SummonerByName",
                     await DataService.DataFetcher.GetSummonerLeagueAndMatchesThisSeasonAsync(region, name));
         }

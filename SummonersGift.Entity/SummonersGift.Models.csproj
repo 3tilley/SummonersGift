@@ -67,6 +67,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="View\StatBasicViewModel.cs" />
     <Compile Include="View\SummonerBasicViewModel.cs" />
+    <Compile Include="View\SummonerSearch.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

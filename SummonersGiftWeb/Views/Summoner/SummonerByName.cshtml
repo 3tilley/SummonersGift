@@ -3,7 +3,7 @@
 @using SummonersGift.Models.Riot;
 @using SummonersGift.Models.View;
 @using SummonersGift.Web;
-@model DataFetchResult<Tuple<SummonerBasicViewModel, List<Match>>>
+@model DataFetchResult<Tuple<SummonerBasicViewModel, List<Match>, StatBasicViewModel[]>>
 
 
 @{
@@ -18,21 +18,36 @@
 
 @{ if (@Model.Success)
     {
-    <p>Welcome: @Model.GetResult.Item1.Name</p>
+    var summoner = Model.GetResult.Item1;
+    var matches = Model.GetResult.Item2;
+    var stats = Model.GetResult.Item3;
 
-    <p>You are level: @Model.GetResult.Item1.SummonerLevel</p>
+    <h3>@summoner.Name</h3>
 
-    <p>And were last active on: @Model.GetResult.Item1.RevisionDate</p>
-        foreach (Match i in Model.GetResult.Item2)
+    <p>Level: @summoner.SummonerLevel</p>
+
+    <p>Last active on: @summoner.RevisionDate</p>
+
+    <p>Rank: @summoner.DisplayRank</p>
+
+    if (!(stats==null))
+    {
+        foreach (var row in stats)
         {
-            @Html.Partial("~/Views/Shared/_MatchPartial.cshtml", i);
+    <p>@row.StatName : @row.SampleMean : @row.SummonerMean</p>
         }
     }
-    else
+
+    foreach (Match i in Model.GetResult.Item2)
     {
+    @Html.Partial("~/Views/Shared/_MatchPartial.cshtml", i);
+    }
+}
+else
+{
     <p>No summoner information found...</p>
     <p>@Model.ErrorMessage</p>
-    }
+}
 
     <p>Api calls: @Model.ApiCalls</p>
     <p>Time taken: @Model.TimeTaken.TotalSeconds</p>

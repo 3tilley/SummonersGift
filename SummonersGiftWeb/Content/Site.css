@@ -23,6 +23,8 @@ textarea {
     max-width: 280px;
 }
 
+/* Match history styling */
+
 div.matchItem {
     margin: 10px auto 10px auto;
     padding: 10px;
@@ -34,59 +36,62 @@ div.matchItem {
     
 }
 
-div.won {
+.won.matchItem {
     aabackground: url("../Images/victory.png") no-repeat center center;
     background-color: #94FFDB;
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-div.lost {
+div.lost.matchItem {
     aabackground: url("../Images/defeat.png") no-repeat center center;
     background-color: #FF8080;
     background-size: cover;
     background-repeat: no-repeat;
 }
 
-div.leftPanel {
+.matchItem div.leftPanel {
     float: left;
+    margin: auto;
     padding: 5px;
+    background-color: darkred;
 }
 
-div.middlePanel {
+.matchItem div.middlePanel {
     padding: 5px;
     float: left;
-    width:auto;
-
+    width: auto;
+    background-color: blue;
 }
 
-div.rightPanel {
+.matchItem div.rightPanel {
     display: block;
     float: right;
     padding: 5px;
     position: relative;
     height: 160px;
     width: auto;
+    background-color: darkred;
 }
 
-div.champName {
+.matchItem div.champName {
     font-size: 30px;
     float: top;
 }
 
-div.spell {
+.matchItem div.spell {
     display: inline;
     margin-bottom: 5px;
     margin-top: 40px;
 }
 
-div.kda {
+.matchItem div.kda {
     font-size: 22px;
 }
 
-span.matchTime {
+.matchItem span.matchTime {
     position: absolute;
     padding: 10px;
-    bottom: 0;
+    bottom: 10px;
     white-space: nowrap;
 }
