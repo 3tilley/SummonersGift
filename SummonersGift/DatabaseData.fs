@@ -10,9 +10,11 @@ module DatabaseData =
 
     let rankMap = Rank().RankMap
 
+    let roleLane = RoleAndLane()
+
     let statMap = SummonersGift.Data.Stat().StatMap
     
-    let query tId dId =
+    let queryNoRole tId dId =
         query {
             for stat in db.AggStats do
             where ((stat.TierId = tId)
@@ -24,15 +26,53 @@ module DatabaseData =
                 && (stat.StatId <= 4s))
             select stat }
 
+    let queryByRole tId dId rId =
+        query {
+                for stat in db.AggStats do
+                where ((stat.TierId = tId)
+                    && (stat.DivisionId = dId)
+                    && (stat.ChampionId = 0s )
+                    && (stat.RoleId = rId)
+                    && (stat.Winner = System.Nullable())
+                    && (stat.IsBlue = System.Nullable())
+                    && (stat.StatId <= 4s))
+                select stat }        
+
+    let matchesToStatRow  matches (stat : AggStat) =
+        let avgStats =
+            matches
+            |> Seq.map StatFunctions.statFuncMap.[stat.StatId]
+            |> Seq.average
+        StatRowViewModel(byte(stat.StatId), statMap.[stat.StatId], stat.mean.Value, stat.sem.Value, avgStats)
+
     let stats(tier, division, matches) =
         
         // TODO: Fix these conversions
         let (tierId, divId) = rankMap.[(tier, division)]
-        query tierId divId
-        |> Seq.toArray
-        |> Array.map (fun i ->
-            let sumStats =
-                matches
-                |> Seq.map StatFunctions.statFuncMap.[i.StatId]
-                |> Seq.average
-            StatBasicViewModel(byte(i.StatId), statMap.[i.StatId], i.mean.Value, sumStats) )
+        let queryResult = 
+            queryNoRole tierId divId
+            |> Seq.toArray
+        
+        let roleResults =
+            matches
+            |> Seq.groupBy (fun (i : Match) -> i.Participants.[0].Timeline.Role)
+            |> Seq.map(fun (k, group) ->
+                let role = roleLane.RoleOrNullByJson(k)
+                let res =
+                    queryByRole tierId divId role.RoleId
+                    |> Seq.toArray
+                res
+                |> Array.map (matchesToStatRow group)
+                |> fun i ->
+                    let count = if res |> Array.length = 0 then 0 else res.[0].count
+                    StatTableViewModel(i, group |> Seq.length, count, ["lane", role.Description])
+            )
+            |> Seq.toList
+            |> List.filter (fun i -> i.DatasetGames > 0)
+
+        let baseResults =
+            queryResult
+            |> Array.map (matchesToStatRow matches)
+            |> fun i -> StatTableViewModel(i, matches |> Seq.length, queryResult.[0].count, [])
+
+        baseResults::roleResults

@@ -3,7 +3,7 @@
 @using SummonersGift.Models.Riot;
 @using SummonersGift.Models.View;
 @using SummonersGift.Web;
-@model DataFetchResult<Tuple<SummonerBasicViewModel, List<Match>, StatBasicViewModel[]>>
+@model DataFetchResult<Tuple<SummonerBasicViewModel, List<Match>, IEnumerable<StatTableViewModel>>>
 
 
 @{
@@ -32,14 +32,14 @@
 
     if (!(stats==null))
     {
-        foreach (var row in stats)
+        foreach (var statTable in stats)
         {
-    <p>@row.StatName : @row.SampleMean : @row.SummonerMean</p>
+            @Html.Partial("~/Views/Shared/_StatTablePartial.cshtml", statTable);
         }
     }
 
-    foreach (Match i in Model.GetResult.Item2)
-    {
+        foreach (Match i in Model.GetResult.Item2)
+        {
     @Html.Partial("~/Views/Shared/_MatchPartial.cshtml", i);
     }
 }

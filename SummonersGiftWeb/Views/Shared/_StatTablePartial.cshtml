@@ -1,0 +1,31 @@
+﻿@using SummonersGift.Models.View;
+@model StatTableViewModel
+
+<div class="statTable">
+<h3>Role: @(Model.Filters.Select(x => x.Value).FirstOrDefault() ?? "All")</h3>
+@if (Model.SummonerGames==1)
+{
+<p>@Model.SummonerGames game played</p>
+}
+else
+{
+<p>@Model.SummonerGames games played</p>
+}
+<p></p>
+    <table>
+        <tr>
+            <th>Stat</th>
+            <th>Summoner Average</th>
+            <th>Rank Average</th>
+        </tr>
+        @foreach (var i in Model.Stats)
+        {
+            <tr>
+                <td>@i.StatName</td>
+                <td>@i.SummonerMean.ToString("0.0")</td>
+                <td>@i.SampleMean.ToString("0.0") &plusmn @i.SampleError.ToString("0.0")</td>
+            </tr>
+        }
+
+    </table>
+</div>

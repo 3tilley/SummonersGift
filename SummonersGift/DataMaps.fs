@@ -166,6 +166,16 @@ type RoleAndLane() =
         | Some x -> x
         | None -> null
 
+    member x.LaneOrNullByJson(laneJson) =
+        match lanesByJson.TryFind laneJson with
+        | Some x -> x
+        | None -> null
+
+    member x.RoleOrNullByJson(roleJson) =
+        match rolesByJson.TryFind roleJson with
+        | Some x -> x
+        | None -> null
+
     member x.RoleOrNull(roleId) =
         match rolesById.TryFind roleId with
         | Some x -> x

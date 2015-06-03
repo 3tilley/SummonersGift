@@ -65,7 +65,7 @@
     <Compile Include="Riot\SummonersJson_1_4.cs" />
     <Compile Include="Entity\Role.cs" />
     <Compile Include="Utils.cs" />
-    <Compile Include="View\StatBasicViewModel.cs" />
+    <Compile Include="View\StatTableViewModel.cs" />
     <Compile Include="View\SummonerBasicViewModel.cs" />
     <Compile Include="View\SummonerSearch.cs" />
   </ItemGroup>

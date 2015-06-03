@@ -17,4 +17,13 @@ let fetch = DataFetcher([ApiKeys.keys.[0]])
 
 let a = fetch.GetSummonerId("EUW", "Proheme")
 
-Async.
+
+let myList = System.Collections.Generic.List<_>(["a"; "b"; "c"])
+
+
+myList.Reverse()
+myList
+
+let myList2 = System.Collections.Generic.List<string>([])
+
+myList2.Reverse()

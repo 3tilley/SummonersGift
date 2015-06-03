@@ -95,3 +95,13 @@ div.lost.matchItem {
     bottom: 10px;
     white-space: nowrap;
 }
+
+div.statTable {
+    margin: 20px;
+
+}
+
+div.statTable td, div.statTable th {
+    padding-left: 3px;
+    padding-right: 3px;
+}

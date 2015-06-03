@@ -5,6 +5,7 @@ open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
 open System.Threading.Tasks
+//open System.Collections.Generic
 
 open Newtonsoft.Json
 
@@ -130,6 +131,8 @@ module RiotData =
                 let url = buildMatchHistoryUrl region (summonerId) index key
                 let! hist = asyncRiotCall url
                 match hist with
+                | Data "{}" ->
+                    return (Success matchList, calls + 1)
                 | Data s ->
                     let histObj = buildMatchHistoryObject s
                     histObj.Matches.Reverse()
@@ -227,8 +230,8 @@ module RiotData =
                                 match rankResult with
                                 | Some r ->
                                     let stats = DatabaseData.stats(r.Tier, r.Division, h)
-                                    ((r.Tier, r.Division), stats)
-                                | None -> ((null, null), null)
+                                    ((r.Tier, r.Division), stats |> List.toSeq)
+                                | None -> ((null, null), Seq.empty)
                             return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h, stats), start, x + 2)
                         | Failure x ->
                             return Result.ErrorResult("Could not find summoner leagues", start, 2)
