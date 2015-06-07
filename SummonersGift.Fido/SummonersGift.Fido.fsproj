@@ -51,7 +51,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SummonersGift\SummonersGift.Data.fsproj">
+    <ProjectReference Include="..\SummonersGift.Data\SummonersGift.Data.fsproj">
       <Name>SummonersGift.Data</Name>
       <Project>{cb880491-d5dd-47f6-abbb-b28d6de1c5b7}</Project>
       <Private>True</Private>

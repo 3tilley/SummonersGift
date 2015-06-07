@@ -76,7 +76,7 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DataDownloader\SummonersGift.Fido.fsproj">
+    <ProjectReference Include="..\SummonersGift.Fido\SummonersGift.Fido.fsproj">
       <Name>SummonersGift.Fido</Name>
       <Project>{fbe1f782-7d41-49dd-8dae-847d8d024437}</Project>
       <Private>True</Private>
@@ -86,12 +86,12 @@
       <Project>{a9e995dd-1801-45d0-b895-039b741eff2c}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SummonersGiftWeb\SummonersGift.Web.csproj">
+    <ProjectReference Include="..\SummonersGift.Web\SummonersGift.Web.csproj">
       <Name>SummonersGift.Web</Name>
       <Project>{da8dd82b-3f6e-4e48-976f-c1b02e92bcca}</Project>
       <Private>True</Private>
     </ProjectReference>
-    <ProjectReference Include="..\SummonersGift\SummonersGift.Data.fsproj">
+    <ProjectReference Include="..\SummonersGift.Data\SummonersGift.Data.fsproj">
       <Name>SummonersGift.Data</Name>
       <Project>{cb880491-d5dd-47f6-abbb-b28d6de1c5b7}</Project>
       <Private>True</Private>
