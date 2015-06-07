@@ -50,17 +50,17 @@ type internal Result private () =
 
 module RiotRequest =
 
-    [<Literal>]
-    let RateLimitExceededError : HttpStatusCode = enum 429 
+//    [<Literal>]
+//    let RateLimitExceededError : HttpStatusCode = enum 429 
 
     type ErrorCode =
         | Http400 | Http401 | Http404 | Http429 | Http500 | Http503
-            with static member fromStatusCode = 
-                function
+        static member fromStatusCode =
+            function
                 | HttpStatusCode.BadRequest -> Http400
                 | HttpStatusCode.Unauthorized -> Http401
                 | HttpStatusCode.NotFound -> Http404
-                | RateLimitExceededError -> Http429
+//                | RateLimitExceededError -> Http429
                 | HttpStatusCode.InternalServerError -> Http500
                 | HttpStatusCode.ServiceUnavailable -> Http503
 
