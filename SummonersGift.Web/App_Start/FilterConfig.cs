@@ -7,6 +7,7 @@ namespace SummonersGift.Web
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
+            filters.Add(new ExceptionHandlerAttribute());
             filters.Add(new HandleErrorAttribute());
         }
     }

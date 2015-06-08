@@ -8,7 +8,7 @@ using System.Net;
 using System.Net.Http;
 using System.Diagnostics;
 
-namespace SummonersGift.Web.Common
+namespace SummonersGift.Web
 {
     public class ExceptionHandlerAttribute : ExceptionFilterAttribute
     {
