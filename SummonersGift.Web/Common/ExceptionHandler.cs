@@ -2,25 +2,26 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Http.Filters;
-using System.Web.Http;
+using System.Web.Mvc;
+//using System.Web.Http.Filters;
+//using System.Web.Http;
 using System.Net;
 using System.Net.Http;
 using System.Diagnostics;
 
 namespace SummonersGift.Web
 {
-    public class ExceptionHandlerAttribute : ExceptionFilterAttribute
+    public class ExceptionHandlerAttribute : FilterAttribute, IExceptionFilter
     {
-        public override void OnException(HttpActionExecutedContext actionExecutedContext)
-        {
-            Trace.TraceError(actionExecutedContext.Exception.ToString());
 
-            throw new HttpResponseException(new HttpResponseMessage(HttpStatusCode.InternalServerError)
-            {
-                Content = new StringContent("An error occurred, please try again or contact the administrator."),
-                ReasonPhrase = "Critical Exception"
-            });
+        public void OnException(ExceptionContext context)
+        {
+            Trace.TraceError(context.Exception.ToString());
+
+            var res = new ContentResult();
+            res.Content = context.Exception.ToString();
+            context.Result = res;
+            
         }
     }
 }
