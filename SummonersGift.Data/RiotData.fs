@@ -54,7 +54,7 @@ module RiotRequest =
 //    let RateLimitExceededError : HttpStatusCode = enum 429 
 
     type ErrorCode =
-        | Http400 | Http401 | Http404 | Http429 | Http500 | Http503 | Other of string
+        | Http400 | Http401 | Http404 | Http429 | Http500 | Http503
         static member fromStatusCode =
             function
                 | HttpStatusCode.BadRequest -> Http400
@@ -63,7 +63,6 @@ module RiotRequest =
 //                | RateLimitExceededError -> Http429
                 | HttpStatusCode.InternalServerError -> Http500
                 | HttpStatusCode.ServiceUnavailable -> Http503
-                | x -> Other(x.ToString())
 
     type RiotResponse =
         | Data of string
