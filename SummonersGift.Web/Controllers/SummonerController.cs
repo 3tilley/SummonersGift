@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SummonersGift.Web.Controllers
 {
@@ -24,6 +25,8 @@ namespace SummonersGift.Web.Controllers
                 return SummonerLookup();
             }
             ViewBag.Title = name;
+
+            Trace.TraceError("Summoner lookup: " + region + " : " + name);
 
             return View("SummonerByName",
                     await DataService.DataFetcher.GetSummonerLeagueAndMatchesThisSeasonAsync(region, name));

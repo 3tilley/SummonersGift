@@ -18,6 +18,7 @@ namespace SummonersGift.Web
             try
             {
                 var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"].ConnectionString;
+                Trace.TraceError("Api key pulled: " + apiKey);
                 var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
                 keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
                 DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);

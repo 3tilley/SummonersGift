@@ -5,7 +5,7 @@ open System.Net
 open System.Net.Http
 open System.Net.Http.Headers
 open System.Threading.Tasks
-//open System.Collections.Generic
+open System.Diagnostics
 
 open Newtonsoft.Json
 
@@ -80,6 +80,7 @@ module RiotRequest =
             let! response = client.GetAsync(url) |> Async.AwaitTask
             match response.IsSuccessStatusCode with
             | false ->
+                Trace.TraceError(url + " returned " + (response.StatusCode.ToString()))
                 return Error(ErrorCode.fromStatusCode(response.StatusCode), response.ReasonPhrase)
             | true ->
                 let! responseData = response.Content.ReadAsStringAsync() |> Async.AwaitTask
