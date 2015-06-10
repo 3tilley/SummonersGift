@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.FSharp.Collections;
+using System.Diagnostics;
+
 
 namespace SummonersGift.Web
 {
@@ -13,15 +15,40 @@ namespace SummonersGift.Web
     {
         protected void Application_Start()
         {
-            var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"].ConnectionString;
-            var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
-            keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
+            try
+            {
+                var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"].ConnectionString;
+                var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
+                keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
+                DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);
+            }
+            catch (Exception)
+            {
+                var message = "Cannot get Api key from config";
+                Trace.TraceError(message);
+                throw new  Exception(message);
+            }
 
-            DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);
-            DataService.Champions = new Data.Champions("5.9.1");
-            DataService.Summoners = new Data.Summoners("5.9.1");
+            var stage = "";
 
-            DataService.RoleAndLane = new Data.RoleAndLane();
+            try 
+            {
+                stage = "champions";
+                DataService.Champions = new Data.Champions("5.9.1");
+                
+                stage = "summoners";
+                DataService.Summoners = new Data.Summoners("5.9.1");
+
+                stage = "role and lane";
+                DataService.RoleAndLane = new Data.RoleAndLane();
+
+            }
+            catch (Exception)
+            {
+                var message = "Static data loading failed at " + stage;
+                Trace.TraceError(message);
+                throw new Exception(message);
+            }
 
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
