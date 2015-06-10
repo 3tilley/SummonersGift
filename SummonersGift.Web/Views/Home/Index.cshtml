@@ -1,24 +1,28 @@
-﻿@{
+﻿
+@model SummonersGift.Models.View.SummonerSearch
+
+@{
     ViewBag.Title = "Home Page";
 }
 
 <div class="jumbotron">
-    <h1>Summoners Gift</h1>
-    <p class="lead">Summoners Gift is the world's leading source of LoL statistics. </p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Summoner's Gift</h1>
+    <p class="lead">
+    We want to show you what's underneath all of that League of Legends
+    data. What's your play-style? What do you do differently? What games are you likely
+    to win?
+    </p>
+    <p>What does your data say about you...
+    </p>
+    @Html.ActionLink("Summoner lookup", "/../Summoner")
 </div>
 
 <div class="row">
-    <div class="col-md-2">
+    <div class="col-md-6">
         <h2>Summoner Statistics</h2>
         <p>
             Get detailed statistics on summoners broken down by rank.
         </p>
         <p><a class="btn btn-default" href="/Summoner">Learn more &raquo;</a></p>
     </div>
-    @*<div class="col-md-2">
-        <h2>Champion Win Rates</h2>
-        <p>See win rates by league and role.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>*@
 </div>

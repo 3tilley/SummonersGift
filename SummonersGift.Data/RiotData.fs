@@ -199,10 +199,12 @@ module RiotData =
                 | 1 -> keys |> Seq.head
                 | x when x >= 2 -> failwith "Multiple keys not supported"
 
-        member public x.GetSummonerLeagueAndMatchesThisSeasonAsync(region, escapedName) =
+        member public x.GetSummonerLeagueAndMatchesThisSeasonAsync(region2 : string, escapedName2 : string) =
             async {
+                let lowerRegion = region2.ToLower()
+                let lowerName = escapedName2.ToLower()
                 let start = DateTime.UtcNow
-                let! summoner = asyncGetSummoner region escapedName key
+                let! summoner = asyncGetSummoner lowerRegion lowerName key
                 match summoner with
                 | Failure(mes) ->
                     return Result.ErrorResult("Summoner not found: " + mes, start, 1)
@@ -212,12 +214,12 @@ module RiotData =
                     Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
 
                     let! league =
-                        asyncGetSummonerRankedSoloLeague region summonerId key.Key
+                        asyncGetSummonerRankedSoloLeague lowerRegion summonerId key.Key
                             
                     Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
 
                     let! hist =
-                        asyncGetMatchHistory region summonerId (fun i -> i.Season = "SEASON2015")
+                        asyncGetMatchHistory lowerRegion summonerId (fun i -> i.Season = "SEASON2015")
                                 id key.Key (1.0 / key.ReqsPerSecond)
                     match hist with
                     | (Failure s, x) ->
@@ -239,17 +241,19 @@ module RiotData =
                 }
                 |> Async.StartAsTask
 
-        member public x.GetSummonerIdAsync(region, escapedName) =
+        member public x.GetSummonerIdAsync(region2 : string, escapedName2 : string) =
             async {
+                let lowerRegion = region2.ToLower()
+                let lowerName = escapedName2.ToLower()
                 let start = DateTime.UtcNow
-                let url = buildSummonerNamesUrl region [escapedName] key.Key
+                let url = buildSummonerNamesUrl lowerRegion [lowerName] key.Key
                 let! riotData = asyncRiotCall url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
-                    match jsonObj.TryFind escapedName with
+                    match jsonObj.TryFind lowerName with
                     | Some x ->
-                        let! rank = asyncGetSummonerRankedSoloLeague region x.Id key.Key
+                        let! rank = asyncGetSummonerRankedSoloLeague lowerRegion x.Id key.Key
                         match rank with
                         | Success(Some r) ->
                             return Result.SuccessfulResult(SummonerBasicViewModel(x, r.Tier, r.Division), start, 2)
