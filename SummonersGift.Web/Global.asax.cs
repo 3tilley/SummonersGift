@@ -17,10 +17,15 @@ namespace SummonersGift.Web
         {
             try
             {
-                var apiKey = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"].ConnectionString;
-                if (apiKey==null)
+                var apiKeyObj = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"];
+                var apiKey = "";
+                if (apiKeyObj == null)
                 {
                     apiKey = System.Configuration.ConfigurationManager.AppSettings["devApiKey"];
+                }
+                else
+                {
+                    apiKey = apiKeyObj.ConnectionString;
                 }
                 Trace.TraceError("Api key pulled: " + apiKey);
                 var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
