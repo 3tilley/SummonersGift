@@ -54,6 +54,12 @@ namespace SummonersGift.Web
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+        }
+
+        protected void Application_Error(Object sender, EventArgs e)
+        {
+            System.Diagnostics.Trace.TraceError(Server.GetLastError().ToString());
         }
     }
 }
