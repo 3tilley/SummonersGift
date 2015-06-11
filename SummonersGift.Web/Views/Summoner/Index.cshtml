@@ -11,7 +11,8 @@
 @using (Html.BeginRouteForm("SummonerByName", new { controller = "SummonerByName" }, FormMethod.Get))
 {
     <p>Region</p>
-    <p>@Html.TextBoxFor(x => x.region)</p>
+    <p>@Html.DropDownListFor(x => x.region,
+        new SelectList(DataService.Regions))</p>
     <p>Summoner Name</p>
     <p>@Html.TextBoxFor(x => x.name)</p>
     <p><input type="submit" name="search" value="Search" /></p>

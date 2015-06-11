@@ -52,6 +52,9 @@ namespace SummonersGift.Web
                 stage = "role and lane";
                 DataService.RoleAndLane = new Data.RoleAndLane();
 
+                stage = "region";
+                DataService.Regions = new Data.Region().Regions;
+
             }
             catch (Exception)
             {

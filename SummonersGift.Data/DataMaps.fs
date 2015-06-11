@@ -92,6 +92,22 @@ type Stat() =
 
     member x.StatMap = map
 
+type Region() =
+    let regions =
+        use db = new SgdbContext()
+        
+        let regionQ =
+            query {
+                for r in db.Regions do
+                    select r }
+
+        regionQ
+        |> Seq.toArray
+
+    member x.Regions =
+        regions
+        |> Array.map (fun i -> i.RegionJson)
+
 type Rank() =
     let buildRankMap =
         use db = new SgdbContext()

@@ -31,12 +31,14 @@ namespace SummonersGift.Models.View
         public IReadOnlyDictionary<string, string> Filters { get; private set; }
         public int SummonerGames { get; private set; }
         public int DatasetGames { get; private set; }
+        public int SummonerWins { get; private set; }
 
         public StatTableViewModel(IEnumerable<StatRowViewModel> stats, int summonerGames,
-                int datasetGames, IEnumerable<Tuple<string, string>> filters)
+                int summonerWins, int datasetGames, IEnumerable<Tuple<string, string>> filters)
         {
             Stats = stats;
             SummonerGames = summonerGames;
+            SummonerWins = summonerWins;
             DatasetGames = datasetGames;
             Filters = new ReadOnlyDictionary<string, string>(filters.ToDictionary(x => x.Item1, x => x.Item2));
         }

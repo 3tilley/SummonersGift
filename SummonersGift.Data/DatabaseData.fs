@@ -45,6 +45,14 @@ module DatabaseData =
             |> Seq.average
         StatRowViewModel(byte(stat.StatId), statMap.[stat.StatId], stat.mean.Value, stat.sem.Value, avgStats)
 
+    let matchWins (matches : Match seq) =
+        matches
+        |> Seq.fold (fun acc i ->
+            match i.Participants.[0].Stats.Winner with
+            | true -> acc + 1
+            | false -> acc + 0
+            ) 0
+
     let stats(tier, division, matches) =
         
         // TODO: Fix these conversions
@@ -65,14 +73,17 @@ module DatabaseData =
                 |> Array.map (matchesToStatRow group)
                 |> fun i ->
                     let count = if res |> Array.length = 0 then 0 else res.[0].count
-                    StatTableViewModel(i, group |> Seq.length, count, ["lane", role.Description])
+                    let winCount = group |> matchWins
+                    StatTableViewModel(i, group |> Seq.length, winCount, count, ["lane", role.Description])
+                    
             )
             |> Seq.toList
             |> List.filter (fun i -> i.DatasetGames > 0)
 
+        let wins = matches |> matchWins
         let baseResults =
             queryResult
             |> Array.map (matchesToStatRow matches)
-            |> fun i -> StatTableViewModel(i, matches |> Seq.length, queryResult.[0].count, [])
+            |> fun i -> StatTableViewModel(i, matches |> Seq.length, wins, queryResult.[0].count, [])
 
         baseResults::roleResults

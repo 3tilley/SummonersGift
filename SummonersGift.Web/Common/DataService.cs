@@ -12,5 +12,6 @@ namespace SummonersGift.Web
         public static SummonersGift.Data.Champions Champions = null;
         public static SummonersGift.Data.Summoners Summoners = null;
         public static SummonersGift.Data.RoleAndLane RoleAndLane = null;
+        public static IEnumerable<string> Regions = null;
     }
 }

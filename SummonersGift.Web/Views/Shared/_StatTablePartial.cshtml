@@ -3,6 +3,7 @@
 
 <div class="statTable">
 <h3>Role: @(Model.Filters.Select(x => x.Value).FirstOrDefault() ?? "All")</h3>
+
 @if (Model.SummonerGames==1)
 {
 <p>@Model.SummonerGames game played</p>
@@ -11,6 +12,16 @@ else
 {
 <p>@Model.SummonerGames games played</p>
 }
+
+@if (Model.SummonerWins == 1)
+{
+    <p>@Model.SummonerWins game won - @((100.0 * Model.SummonerWins / Model.SummonerGames).ToString("0.0"))%</p>
+}
+else
+{
+    <p>@Model.SummonerWins games won - @((100.0 * Model.SummonerWins / Model.SummonerGames).ToString("0.0"))%</p>
+}
+<p> </p>
 <p></p>
     <table>
         <tr>
