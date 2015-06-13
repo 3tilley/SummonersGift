@@ -185,7 +185,7 @@ namespace SummonersGift.Models.Riot
 
     public class Match
     {
-        public int MatchId { get; set; }
+        public Int64 MatchId { get; set; }
         public string Region { get; set; }
         public string PlatformId { get; set; }
         public string MatchMode { get; set; }
