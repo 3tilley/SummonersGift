@@ -91,7 +91,7 @@ module Json =
         member x.``Check members of SummonerJson`` () =
             let d = buildMatchHistoryObject(MatchHistoryJson())
             d.Matches |> should haveCount 10
-            d.Matches |> Seq.exists (fun i -> i.MatchId = 1792915017) |> should be True
+            d.Matches |> Seq.exists (fun i -> i.MatchId = 1792915017L) |> should be True
 
         [<Test>]
         member x.``Deserialise summoner leagues into generic list`` () =
