@@ -162,6 +162,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ExceptionHandler.cs" />
+    <Compile Include="Common\OtherStatic.cs" />
     <Compile Include="Controllers\ChampionController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
@@ -249,6 +250,7 @@
     <Content Include="Views\Summoner\SummonerByName.cshtml" />
     <Content Include="Views\Shared\_MatchPartial.cshtml" />
     <Content Include="Views\Shared\_StatTablePartial.cshtml" />
+    <Content Include="Views\Shared\_GoogleAnalytics.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

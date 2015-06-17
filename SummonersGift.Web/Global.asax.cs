@@ -7,7 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Microsoft.FSharp.Collections;
 using System.Diagnostics;
-
+using System.Configuration;
 
 namespace SummonersGift.Web
 {
@@ -17,7 +17,7 @@ namespace SummonersGift.Web
         {
             try
             {
-                var apiKeyObj = System.Configuration.ConfigurationManager.ConnectionStrings["devApiKey"];
+                var apiKeyObj = ConfigurationManager.ConnectionStrings["devApiKey"];
                 var apiKey = "";
                 if (apiKeyObj == null)
                 {
@@ -27,7 +27,7 @@ namespace SummonersGift.Web
                 {
                     apiKey = apiKeyObj.ConnectionString;
                 }
-                Trace.TraceError("Api key pulled: " + apiKey);
+                Trace.TraceInformation("Api key pulled: " + apiKey);
                 var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
                 keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
                 DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);
@@ -37,6 +37,20 @@ namespace SummonersGift.Web
                 var message = "Cannot get Api key from config";
                 Trace.TraceError(message);
                 throw new  Exception(message);
+            }
+
+            try
+            {
+                var googleId = ConfigurationManager.AppSettings["GoogleAnalyticsId"];
+                Common.OtherStatic.GoogleAnalyticsId = googleId;
+                Trace.TraceInformation("Google Analytics Id pull: " + googleId);
+
+            }
+            catch (Exception)
+            {
+                var message = "Unable to get Google Analytics Id from config";
+                Trace.TraceError(message);
+                throw new Exception(message);
             }
 
             var stage = "";
