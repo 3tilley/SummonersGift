@@ -10,5 +10,6 @@ namespace SummonersGift.Models.View
     {
         public string region { get; set; }
         public string name { get; set; }
+        public bool makeDefaultRegion { get; set; }
     }
 }

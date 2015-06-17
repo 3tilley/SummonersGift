@@ -13,6 +13,10 @@
     <p>Region</p>
     <p>@Html.DropDownListFor(x => x.region,
         new SelectList(DataService.Regions))</p>
+    <div id="defaultValueCheck">
+        Make this my default region
+        <input id="makeDefaultRegion" name="makeDefaultRegion" value="true" type="checkbox">
+    </div>
     <p>Summoner Name</p>
     <p>@Html.TextBoxFor(x => x.name)</p>
     <p><input type="submit" name="search" value="Search" /></p>
