@@ -4,14 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProtoBuf;
 
 namespace SummonersGift.Models.Riot
 {
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class MatchHistory_2_2
     {
         public List<Match> Matches { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class CreepsPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -20,6 +23,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class XpPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -28,6 +32,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class GoldPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -36,6 +41,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class CsDiffPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -44,6 +50,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class XpDiffPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -52,6 +59,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class DamageTakenPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -60,6 +68,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class DamageTakenDiffPerMinDeltas
     {
         public double ZeroToTen { get; set; }
@@ -68,6 +77,7 @@ namespace SummonersGift.Models.Riot
         public double ThirtyToEnd { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Timeline
     {
         public CreepsPerMinDeltas CreepsPerMinDeltas { get; set; }
@@ -81,12 +91,14 @@ namespace SummonersGift.Models.Riot
         public string Lane { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Mastery
     {
         public int MasteryId { get; set; }
         public int Rank { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class MatchHistoryStats
     {
         public bool Winner { get; set; }
@@ -149,12 +161,14 @@ namespace SummonersGift.Models.Riot
         public int TotalTimeCrowdControlDealt { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Rune
     {
         public int RuneId { get; set; }
         public int Rank { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Participant
     {
         public int TeamId { get; set; }
@@ -169,6 +183,7 @@ namespace SummonersGift.Models.Riot
         public List<Rune> Runes { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Player
     {
         public int SummonerId { get; set; }
@@ -177,12 +192,14 @@ namespace SummonersGift.Models.Riot
         public int ProfileIcon { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class ParticipantIdentity
     {
         public int ParticipantId { get; set; }
         public Player Player { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Match
     {
         public Int64 MatchId { get; set; }

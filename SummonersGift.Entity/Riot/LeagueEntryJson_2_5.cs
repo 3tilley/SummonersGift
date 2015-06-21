@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProtoBuf;
 
 namespace SummonersGift.Models.Riot
 {
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class MiniSeries
     {
         public string Progress { get; set; }
@@ -14,6 +16,7 @@ namespace SummonersGift.Models.Riot
         public int Wins { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Entry
     {
         public int LeaguePoints { get; set; }
@@ -28,6 +31,7 @@ namespace SummonersGift.Models.Riot
         public MiniSeries MiniSeries { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class LeagueJson_2_5
     {
         public string Queue { get; set; }

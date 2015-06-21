@@ -5,9 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.FSharp.Collections;
+using ProtoBuf;
 
 namespace SummonersGift.Models.Riot
 {
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Summoner_1_4
     {
         public int Id { get; set; }

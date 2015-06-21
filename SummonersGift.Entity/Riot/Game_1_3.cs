@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProtoBuf;
 
 namespace SummonersGift.Models.Riot
 {
-
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class FellowPlayer
     {
         public int ChampionId { get; set; }
@@ -14,6 +15,7 @@ namespace SummonersGift.Models.Riot
         public int SummonerId { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class RecentGameStats
     {
         public int TotalDamageDealtToChampions { get; set; }
@@ -66,12 +68,13 @@ namespace SummonersGift.Models.Riot
         public int? BarracksKilled { get; set; }
     }
 
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Game
     {
         public List<FellowPlayer> FellowPlayers { get; set; }
         public string GameType { get; set; }
         public RecentGameStats Stats { get; set; }
-        public object GameId { get; set; }
+        public long GameId { get; set; }
         public int IpEarned { get; set; }
         public int Spell1 { get; set; }
         public int TeamId { get; set; }
@@ -81,10 +84,11 @@ namespace SummonersGift.Models.Riot
         public int Level { get; set; }
         public bool Invalid { get; set; }
         public string SubType { get; set; }
-        public object CreateDate { get; set; }
+        public long CreateDate { get; set; }
         public int ChampionId { get; set; }
     }
-
+    
+    [ProtoContract(ImplicitFields = ImplicitFields.AllFields)]
     public class Game_1_3
     {
         public List<Game> Games { get; set; }
