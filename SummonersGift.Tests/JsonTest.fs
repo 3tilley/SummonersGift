@@ -88,6 +88,11 @@ module Json =
             |> ignore
 
         [<Test>]
+        member x.``Check members of match history object`` () =
+            let d = JsonConvert.DeserializeObject<MatchHistory_2_2>(MatchHistoryJson())
+            d.Matches.[0].Participants.[0].Stats.Item1 |> should equal 3136
+
+        [<Test>]
         member x.``Check members of SummonerJson`` () =
             let d = buildMatchHistoryObject(MatchHistoryJson())
             d.Matches |> should haveCount 10

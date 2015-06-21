@@ -1,5 +1,6 @@
 ﻿using Microsoft.Owin;
 using Owin;
+using Hangfire;
 
 [assembly: OwinStartupAttribute(typeof(SummonersGift.Web.Startup))]
 namespace SummonersGift.Web
@@ -8,6 +9,10 @@ namespace SummonersGift.Web
     {
         public void Configuration(IAppBuilder app)
         {
+            //GlobalConfiguration.Configuration.UseSqlServerStorage(connstring);
+            //app.UseHangfireDashboard();
+            //app.UseHangfireServer();
+
             ConfigureAuth(app);
         }
     }

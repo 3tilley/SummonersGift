@@ -87,7 +87,7 @@ namespace SummonersGift.Models.Riot
         public int Rank { get; set; }
     }
 
-    public class Stats
+    public class MatchHistoryStats
     {
         public bool Winner { get; set; }
         public int ChampLevel { get; set; }
@@ -164,7 +164,7 @@ namespace SummonersGift.Models.Riot
         public string HighestAchievedSeasonTier { get; set; }
         public Timeline Timeline { get; set; }
         public List<Mastery> Masteries { get; set; }
-        public Stats Stats { get; set; }
+        public MatchHistoryStats Stats { get; set; }
         public int ParticipantId { get; set; }
         public List<Rune> Runes { get; set; }
     }
