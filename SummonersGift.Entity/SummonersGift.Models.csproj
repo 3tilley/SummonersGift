@@ -71,6 +71,7 @@
     <Compile Include="Utils.cs" />
     <Compile Include="View\StatTableViewModel.cs" />
     <Compile Include="View\SummonerBasicViewModel.cs" />
+    <Compile Include="View\SummonerFullViewModel.cs" />
     <Compile Include="View\SummonerSearch.cs" />
   </ItemGroup>
   <ItemGroup>

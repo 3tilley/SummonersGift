@@ -55,6 +55,7 @@
     <Compile Include="FetchFunctions.fs" />
     <Compile Include="DataMaps.fs" />
     <Compile Include="DatabaseData.fs" />
+    <Compile Include="Summoner.fs" />
     <Compile Include="RiotData.fs" />
     <None Include="DataDownloader.fsx" />
     <None Include="KosScripting.fsx" />
@@ -64,6 +65,7 @@
     <None Include="SerialisationTesting.fsx" />
     <None Include="Scripts\load-references.fsx" />
     <None Include="Scripts\load-project.fsx" />
+    <Compile Include="Redis.fs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="EntityFramework">

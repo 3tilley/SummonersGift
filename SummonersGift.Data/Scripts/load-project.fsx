@@ -7,4 +7,6 @@
       @"..\FetchFunctions.fs"
       @"..\DataMaps.fs"
       @"..\DatabaseData.fs"
+      @"..\Summoner.fs"
       @"..\RiotData.fs"
+      @"..\Redis.fs"
