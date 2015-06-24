@@ -56,6 +56,7 @@
     <Compile Include="DataMaps.fs" />
     <Compile Include="DatabaseData.fs" />
     <Compile Include="Summoner.fs" />
+    <Compile Include="RiotRequestPool.fs" />
     <Compile Include="RiotData.fs" />
     <None Include="DataDownloader.fsx" />
     <None Include="KosScripting.fsx" />

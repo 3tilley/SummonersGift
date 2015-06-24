@@ -11,6 +11,7 @@ open Newtonsoft.Json
 
 open SummonersGift.Data.Utils
 open SummonersGift.Data.Endpoints
+open SummonersGift.Data.RiotRequestPool
 open SummonersGift.Models.Riot
 open SummonersGift.Models.View
 
@@ -54,7 +55,7 @@ module RiotRequest =
 //    let RateLimitExceededError : HttpStatusCode = enum 429 
 
     type ErrorCode =
-        | Http400 | Http401 | Http404 | Http429 | Http500 | Http503
+        | Http400 | Http401 | Http404 | Http429 | Http500 | Http503 | Other
         static member fromStatusCode =
             function
                 | HttpStatusCode.BadRequest -> Http400
@@ -63,6 +64,8 @@ module RiotRequest =
 //                | RateLimitExceededError -> Http429
                 | HttpStatusCode.InternalServerError -> Http500
                 | HttpStatusCode.ServiceUnavailable -> Http503
+                | _ -> Other
+
 
     type RiotResponse =
         | Data of string
@@ -72,11 +75,12 @@ module RiotRequest =
         | Success of 'T
         | Failure of string
 
-    let asyncRiotCall (url : string) =
+    let asyncRiotCall (pool : IRequestPool) (url : string) =
         async {
             use client = new HttpClient()
             client.DefaultRequestHeaders.Accept.Clear()
             client.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"))
+            do! pool.GetRiotRequest()
             let! response = client.GetAsync(url) |> Async.AwaitTask
             match response.IsSuccessStatusCode with
             | false ->
@@ -108,10 +112,10 @@ module RiotData =
         JsonConvert.DeserializeObject<Map<int, List<LeagueJson_2_5>>>(leagueResponseString)
 
 
-    let asyncGetSummoner region escapedName key =
+    let asyncGetSummoner region escapedName key pool =
         async {
                 let url = buildSummonerNamesUrl region [escapedName] key.Key
-                let! riotData = asyncRiotCall url
+                let! riotData = asyncRiotCall pool url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
@@ -125,12 +129,12 @@ module RiotData =
                     return Failure (ec.ToString() + mes)
             }
         
-    let asyncGetMatchHistory region summonerId (condition : Match -> bool) (reduce : Match -> 'T) key delay =
+    let asyncGetMatchHistory region summonerId (condition : Match -> bool) (reduce : Match -> 'T) key pool =
         let matchList = new System.Collections.Generic.List<'T>()
         let rec getMatches index calls =
             async {
                 let url = buildMatchHistoryUrl region (summonerId) index key
-                let! hist = asyncRiotCall url
+                let! hist = asyncRiotCall pool url
                 match hist with
                 | Data "{}" ->
                     return (Success matchList, calls + 1)
@@ -144,7 +148,6 @@ module RiotData =
                     |> Seq.iter (fun game -> matchList.Add(reduce game))
                     match filtered |> Seq.length with
                     | 15 ->
-                        Async.Sleep(int(delay * 1000.0)) |> ignore
                         return! getMatches (index + 15) (calls + 1)
                     | _ -> 
                         return (Success matchList, calls + 1)
@@ -153,10 +156,10 @@ module RiotData =
             }
         getMatches 0 0
 
-    let asyncGetSummonerLeague region summonerId key =
+    let asyncGetSummonerLeague region summonerId key pool =
         async {
                 let url = buildSummonerLeagues region [summonerId] key
-                let! riotData = asyncRiotCall url
+                let! riotData = asyncRiotCall pool url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildLeagueObject s
@@ -169,9 +172,9 @@ module RiotData =
                     return Failure (ec.ToString() + mes)
                 }
 
-    let asyncGetSummonerRankedSoloLeague region summonerId key =
+    let asyncGetSummonerRankedSoloLeague region summonerId key pool =
         async {
-            let! maybeLeagues = asyncGetSummonerLeague region summonerId key
+            let! maybeLeagues = asyncGetSummonerLeague region summonerId key pool
             match maybeLeagues with
             | Failure x ->
                 return Failure x
@@ -186,7 +189,7 @@ module RiotData =
                     return Success (Some { Tier = x.Tier; Division = x.Entries.[0].Division })
             }
 
-    type DataFetcher(keys : ApiKey seq) =
+    type DataFetcher(keys : ApiKey seq, pool) =
 
         let settings = new JsonSerializerSettings()
         do
@@ -204,23 +207,19 @@ module RiotData =
                 let lowerRegion = region2.ToLower()
                 let lowerName = escapedName2.ToLower()
                 let start = DateTime.UtcNow
-                let! summoner = asyncGetSummoner lowerRegion lowerName key
+                let! summoner = asyncGetSummoner lowerRegion lowerName key pool
                 match summoner with
                 | Failure(mes) ->
                     return Result.ErrorResult("Summoner not found: " + mes, start, 1)
                 | Success sumObj ->
                     let summonerId = sumObj.Id
 
-                    Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
-
                     let! league =
-                        asyncGetSummonerRankedSoloLeague lowerRegion summonerId key.Key
-                            
-                    Async.Sleep(int (1000.0 / key.ReqsPerSecond)) |> ignore
+                        asyncGetSummonerRankedSoloLeague lowerRegion summonerId key.Key pool
 
                     let! hist =
                         asyncGetMatchHistory lowerRegion summonerId (fun i -> i.Season = "SEASON2015")
-                                id key.Key (1.0 / key.ReqsPerSecond)
+                                id key.Key pool
                     match hist with
                     | (Failure s, x) ->
                         // Two extra calls for the summoner and league call above
@@ -235,7 +234,7 @@ module RiotData =
                                     let stats = DatabaseData.stats(r.Tier, r.Division, h)
                                     ((r.Tier, r.Division), stats |> List.toSeq)
                                 | None -> ((null, null), Seq.empty)
-                            return Result.SuccessfulResult((SummonerBasicViewModel(sumObj, tier, div), h, stats), start, x + 2)
+                            return Result.SuccessfulResult(SummonerFullViewModel(SummonerBasicViewModel(sumObj, tier, div), stats, h), start, x + 2)
                         | Failure x ->
                             return Result.ErrorResult("Could not find summoner leagues", start, 2)
                 }
@@ -247,13 +246,13 @@ module RiotData =
                 let lowerName = escapedName2.ToLower()
                 let start = DateTime.UtcNow
                 let url = buildSummonerNamesUrl lowerRegion [lowerName] key.Key
-                let! riotData = asyncRiotCall url
+                let! riotData = asyncRiotCall pool url
                 match riotData with
                 | Data s ->
                     let jsonObj = buildSummonerObject s
                     match jsonObj.TryFind lowerName with
                     | Some x ->
-                        let! rank = asyncGetSummonerRankedSoloLeague lowerRegion x.Id key.Key
+                        let! rank = asyncGetSummonerRankedSoloLeague lowerRegion x.Id key.Key pool
                         match rank with
                         | Success(Some r) ->
                             return Result.SuccessfulResult(SummonerBasicViewModel(x, r.Tier, r.Division), start, 2)

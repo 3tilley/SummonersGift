@@ -29,8 +29,12 @@ namespace SummonersGift.Web
                 }
                 Trace.TraceInformation("Api key pulled: " + apiKey);
                 var keyList = new List<SummonersGift.Data.Utils.ApiKey>();
-                keyList.Add(new Data.Utils.ApiKey(apiKey, 0.83, ""));
-                DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList);
+                keyList.Add(new Data.Utils.ApiKey(apiKey, 500.0 / 600.0, ""));
+                
+                //var pool = new Data.RiotRequestPool.BasicPool(500.0 / 600.0);
+                var pool = new Data.RiotRequestPool.MailboxPool(10);
+
+                DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList, pool);
             }
             catch (Exception)
             {

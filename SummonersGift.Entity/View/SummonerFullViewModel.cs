@@ -17,6 +17,22 @@ namespace SummonersGift.Models.View
         public int GamesInLastFortnight { get; private set; }
         public double AverageHour { get; private set; }
         public double PercentageWeekendGames { get; private set; }
+        public bool StatsAvailable { get; private set; }
+
+        private SummonerFullViewModel(SummonerBasicViewModel basics)
+        {
+            SummonerBasics = basics;
+            StatsAvailable = false;
+        }
+
+        public SummonerFullViewModel(SummonerBasicViewModel basics, IEnumerable<StatTableViewModel> stats,
+                IEnumerable<Match> matches)
+        {
+            SummonerBasics = basics;
+            StatTables = stats;
+            Matches = matches;
+            StatsAvailable = false;
+        }
 
         public SummonerFullViewModel(SummonerBasicViewModel basics, IEnumerable<StatTableViewModel> stats,
             IEnumerable<Match> matches, int recentGames, int recentWins, int gamesInLastFortnight,
@@ -30,6 +46,11 @@ namespace SummonersGift.Models.View
             GamesInLastFortnight = gamesInLastFortnight;
             AverageHour = averageHour;
             PercentageWeekendGames = weekendGameRate;
+            StatsAvailable = true;
+        }
+        public static SummonerFullViewModel CreateSummonerWithoutStats(SummonerBasicViewModel basics)
+        {
+            return new SummonerFullViewModel(basics);
         }
     }
 

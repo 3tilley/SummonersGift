@@ -3,7 +3,7 @@
 @using SummonersGift.Models.Riot;
 @using SummonersGift.Models.View;
 @using SummonersGift.Web;
-@model DataFetchResult<Tuple<SummonerBasicViewModel, List<Match>, IEnumerable<StatTableViewModel>>>
+@model DataFetchResult<SummonerFullViewModel>
 
 
 @{
@@ -18,29 +18,30 @@
 
 @{ if (@Model.Success)
     {
-    var summoner = Model.GetResult.Item1;
-    var matches = Model.GetResult.Item2;
-    var stats = Model.GetResult.Item3;
+    var summoner = Model.GetResult;
 
-    <h3>@summoner.Name</h3>
+    <h3>@summoner.SummonerBasics.Name</h3>
 
-    <p>Level: @summoner.SummonerLevel</p>
+    <p>Level: @summoner.SummonerBasics.SummonerLevel</p>
 
-    <p>Last active on: @summoner.RevisionDate</p>
+    <p>Last active on: @summoner.SummonerBasics.RevisionDate</p>
 
-    <p>Rank: @summoner.DisplayRank</p>
+    <p>Rank: @summoner.SummonerBasics.DisplayRank</p>
 
-    if (!(stats==null))
+    if (@summoner.StatsAvailable)
     {
+        var matches = summoner.Matches;
+        var stats = summoner.StatTables;
+        
         foreach (var statTable in stats)
         {
             @Html.Partial("~/Views/Shared/_StatTablePartial.cshtml", statTable);
         }
-    }
-
-        foreach (Match i in Model.GetResult.Item2)
+        
+        foreach (Match i in matches)
         {
-    @Html.Partial("~/Views/Shared/_MatchPartial.cshtml", i);
+            @Html.Partial("~/Views/Shared/_MatchPartial.cshtml", i);
+        }
     }
 }
 else

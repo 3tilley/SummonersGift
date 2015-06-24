@@ -8,5 +8,6 @@
       @"..\DataMaps.fs"
       @"..\DatabaseData.fs"
       @"..\Summoner.fs"
+      @"..\RiotRequestPool.fs"
       @"..\RiotData.fs"
       @"..\Redis.fs"
