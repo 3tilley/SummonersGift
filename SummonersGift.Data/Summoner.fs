@@ -32,7 +32,7 @@ module Summoner =
             matchTimes
             |> List.filter (fun i -> i.DayOfWeek = DayOfWeek.Saturday || i.DayOfWeek = DayOfWeek.Sunday)
             |> List.length
-            |> fun i -> (float i) / (float matchLength)
+            |> fun i -> 100.0 * (float i) / (float matchLength)
 
         let twoWeeksAgo = System.DateTime.UtcNow.AddDays(-14.0)
 

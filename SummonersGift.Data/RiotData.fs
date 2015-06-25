@@ -75,7 +75,7 @@ module RiotRequest =
         | Success of 'T
         | Failure of string
 
-    let asyncRiotCall (pool : IRequestPool) (url : string) =
+    let rec asyncRiotCallFull firstCall (pool : IRequestPool) (url : string) =
         async {
             use client = new HttpClient()
             client.DefaultRequestHeaders.Accept.Clear()
@@ -84,12 +84,22 @@ module RiotRequest =
             let! response = client.GetAsync(url) |> Async.AwaitTask
             match response.IsSuccessStatusCode with
             | false ->
-                Trace.TraceError(url + " returned " + (response.StatusCode.ToString()))
-                return Error(ErrorCode.fromStatusCode(response.StatusCode), response.ReasonPhrase)
+                match (int(response.StatusCode), firstCall, response.Headers.RetryAfter.Delta.HasValue) with
+                | (429, true, true) ->
+                    let retryAfter = response.Headers.RetryAfter.Delta.Value.Milliseconds
+                    Trace.TraceInformation("429: Attempting retry header")
+                    do! Async.Sleep(retryAfter + 200)
+                    return! asyncRiotCallFull false pool url
+                | _ -> 
+                    Trace.TraceError(url + " returned " + (response.StatusCode.ToString()))
+                    return Error(ErrorCode.fromStatusCode(response.StatusCode), response.ReasonPhrase)
             | true ->
                 let! responseData = response.Content.ReadAsStringAsync() |> Async.AwaitTask
                 return Data(responseData)
                 }
+
+    let asyncRiotCall (pool : IRequestPool) (url : string) =
+        asyncRiotCallFull true pool url
 
 open RiotRequest
 
@@ -228,13 +238,14 @@ module RiotData =
                         // Two extra calls for the summoner and league call above
                         match league with
                         | Success rankResult ->
-                            let ((tier, div), stats) =
-                                match rankResult with
-                                | Some r ->
-                                    let stats = DatabaseData.stats(r.Tier, r.Division, h)
-                                    ((r.Tier, r.Division), stats |> List.toSeq)
-                                | None -> ((null, null), Seq.empty)
-                            return Result.SuccessfulResult(SummonerFullViewModel(SummonerBasicViewModel(sumObj, tier, div), stats, h), start, x + 2)
+                            match rankResult with
+                            | Some r ->
+                                let stats = DatabaseData.stats(r.Tier, r.Division, h)
+                                let basicSummoner = SummonerBasicViewModel(sumObj, r.Tier, r.Division)
+                                return Result.SuccessfulResult(Summoner.buildFullViewModel(basicSummoner, stats, h), start, x + 2)
+                            | None ->
+                                let basicSummoner = SummonerBasicViewModel(sumObj, null, null)
+                                return Result.SuccessfulResult(SummonerFullViewModel.CreateSummonerWithoutStats(basicSummoner), start, x + 2)
                         | Failure x ->
                             return Result.ErrorResult("Could not find summoner leagues", start, 2)
                 }

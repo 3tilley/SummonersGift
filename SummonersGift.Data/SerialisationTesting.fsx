@@ -31,3 +31,7 @@ let a = g.Games.[0].Stats
 s.Serialize(a)
 
 t3.Length
+
+let q  = System.Nullable<int>()
+
+q.Value

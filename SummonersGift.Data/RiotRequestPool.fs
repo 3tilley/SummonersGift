@@ -16,7 +16,7 @@ module RiotRequestPool =
         | Update
 
     type MailboxPool(reqsInTenSeconds) =
-        let delay = int(10 * 1000)
+        let delay = int(10.5 * 1000.0)
 
         let mb = new MailboxProcessor<Message>(fun inbox ->
 
@@ -36,7 +36,7 @@ module RiotRequestPool =
                         match reqs with
                         | x when x > 0 ->
                             replyChannel.Reply()
-                            Async.Start (waitAndRepopulate())// |> Async.Ignore
+                            Async.Start (waitAndRepopulate())
                             return! loop (reqs-1) awaitingReqs
                         | 0 ->
                             return! loop 0 (replyChannel::awaitingReqs)
@@ -47,6 +47,7 @@ module RiotRequestPool =
                             return! loop (reqs + 1) []
                         | hd::tl ->
                             hd.Reply()
+                            Async.Start (waitAndRepopulate())
                             return! loop reqs tl
                 }
             loop reqsInTenSeconds [])

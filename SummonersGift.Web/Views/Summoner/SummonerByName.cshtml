@@ -33,6 +33,8 @@
         var matches = summoner.Matches;
         var stats = summoner.StatTables;
         
+        @Html.Partial("~/Views/Shared/_TopLevelSummonerStats.cshtml", summoner)
+        
         foreach (var statTable in stats)
         {
             @Html.Partial("~/Views/Shared/_StatTablePartial.cshtml", statTable);
