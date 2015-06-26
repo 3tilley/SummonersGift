@@ -170,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Common\ExceptionHandler.cs" />
+    <Compile Include="Common\HtmlHelpers.cs" />
     <Compile Include="Common\OtherStatic.cs" />
     <Compile Include="Controllers\ChampionController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />

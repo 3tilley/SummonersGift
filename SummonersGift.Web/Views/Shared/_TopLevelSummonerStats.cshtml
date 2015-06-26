@@ -1,4 +1,5 @@
 ﻿@using SummonersGift.Models.View;
+@using SummonersGift.Web.Common;
 @model SummonerFullViewModel
 
 <div class="topLevelStatsContainer">
@@ -6,9 +7,14 @@
     <h3>Top Level Statistics</h3>
 
     <div class="topLevelStats">
-        <p>@((100 * Model.WinsInRecentGames / Model.NumberOfRecentGames).ToString("0.0"))% win rate in the last @StringHelper.Pluralise(Model.NumberOfRecentGames, "game") </p>
-        <p>@Model.GamesInLastFortnight @StringHelper.Pluralise(Model.GamesInLastFortnight, "game") played in the last two weeks</p>
+
+        <p>@((100 * Model.WinsInRecentGames / Model.NumberOfRecentGames).ToString("0.0"))% win rate
+            in the last @SummonersGift.Web.Common.HtmlHelpers.Pluralise(Model.NumberOfRecentGames, "game") </p>
+        
+        <p>@Model.GamesInLastFortnight @HtmlHelpers.Pluralise(Model.GamesInLastFortnight, "game") played in the last two weeks</p>
+        
         <p>Average game start time: @Model.AverageHour.ToString("0.0")</p>
+       
         <p>Percentage of games played at the weekend: @Model.PercentageWeekendGames.ToString("0.0")%</p>
     </div>
 </div>
