@@ -9,6 +9,8 @@ using Microsoft.FSharp.Collections;
 using System.Diagnostics;
 using System.Configuration;
 
+using StackExchange.Redis;
+
 namespace SummonersGift.Web
 {
     public class MvcApplication : System.Web.HttpApplication
@@ -34,7 +36,16 @@ namespace SummonersGift.Web
                 //var pool = new Data.RiotRequestPool.BasicPool(500.0 / 600.0);
                 var pool = new Data.RiotRequestPool.MailboxPool(10);
 
-                DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList, pool);
+                var redisConn = ConfigurationManager.AppSettings["REDISCLOUD_URL"];
+                Trace.TraceInformation("Redis conn pulled: " + redisConn);
+
+                if (!(redisConn==null))
+                {
+                    DataService.Redis = ConnectionMultiplexer.Connect(redisConn);
+                    Trace.TraceInformation("Redis connection established");
+                }
+
+                DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList, pool, DataService.Redis);
             }
             catch (Exception)
             {

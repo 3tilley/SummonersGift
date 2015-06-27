@@ -8,6 +8,7 @@ open System.Threading.Tasks
 open System.Diagnostics
 
 open Newtonsoft.Json
+open StackExchange.Redis
 
 open SummonersGift.Data.Utils
 open SummonersGift.Data.Endpoints
@@ -199,11 +200,12 @@ module RiotData =
                     return Success (Some { Tier = x.Tier; Division = x.Entries.[0].Division })
             }
 
-    type DataFetcher(keys : ApiKey seq, pool) =
+    type DataFetcher(keys : ApiKey seq, pool, redis : ConnectionMultiplexer) =
 
         let settings = new JsonSerializerSettings()
         do
             settings.ContractResolver <- new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver()
+            //redis.
 
         // Make sure we've only got one key (for now)
         let key = 

@@ -10,3 +10,6 @@ module Redis =
     let followSummonersKey = "followSummoners"
     let normalGamesKey summonerId = "normals:" + summonerId
     //let normalsStoredKey summonerId = "normalsStored:" + summonerId
+
+//    let storeSummoner name =
+//        StackExchange.Redis.
