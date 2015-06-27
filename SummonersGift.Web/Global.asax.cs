@@ -41,8 +41,8 @@ namespace SummonersGift.Web
 
                 if (!(redisConn==null))
                 {
-                    DataService.Redis = ConnectionMultiplexer.Connect(redisConn);
-                    Trace.TraceInformation("Redis connection established");
+                    //DataService.Redis = ConnectionMultiplexer.Connect(redisConn);
+                    //Trace.TraceInformation("Redis connection established");
                 }
 
                 DataService.DataFetcher = new Data.RiotData.DataFetcher(keyList, pool, DataService.Redis);
