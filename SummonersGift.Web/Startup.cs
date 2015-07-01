@@ -9,7 +9,7 @@ namespace SummonersGift.Web
     {
         public void Configuration(IAppBuilder app)
         {
-            GlobalConfiguration.Configuration.UseSqlServerStorage("Server=(localdb)\\v11.0;Integrated Security=true;");
+            GlobalConfiguration.Configuration.UseSqlServerStorage(Common.OtherStatic.SqlServerConnString);
             app.UseHangfireDashboard();
             app.UseHangfireServer();
 

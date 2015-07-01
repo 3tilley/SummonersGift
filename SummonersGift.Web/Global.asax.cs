@@ -56,6 +56,18 @@ namespace SummonersGift.Web
 
             try
             {
+                var connString = ConfigurationManager.ConnectionStrings["sgdb"].ConnectionString;
+                Common.OtherStatic.SqlServerConnString = connString;
+            }
+            catch (Exception)
+            {
+                var message = "Unable to get db connection string";
+                Trace.TraceError(message);
+                throw new Exception(message);
+            }
+
+            try
+            {
                 var googleId = ConfigurationManager.AppSettings["GoogleAnalyticsId"];
                 Common.OtherStatic.GoogleAnalyticsId = googleId;
                 Trace.TraceInformation("Google Analytics Id pull: " + googleId);
